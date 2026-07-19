@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function MainLayout() {
   return (
@@ -10,15 +11,20 @@ function MainLayout() {
           </h1>
 
           <nav className="flex gap-6 text-sm">
-            <a href="/" className="transition hover:text-cyan-400">
+            <Link to="/" className="transition hover:text-cyan-400">
               Home
-            </a>
-            <a href="#" className="transition hover:text-cyan-400">
+            </Link>
+
+            <Link to="/" className="transition hover:text-cyan-400">
               Features
-            </a>
-            <a href="#" className="transition hover:text-cyan-400">
+            </Link>
+
+            <Link
+              to="/login"
+              className="rounded-lg bg-cyan-500 px-4 py-2 font-medium text-slate-900 transition hover:bg-cyan-400"
+            >
               Login
-            </a>
+            </Link>
           </nav>
         </div>
       </header>
