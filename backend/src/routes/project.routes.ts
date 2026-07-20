@@ -1,20 +1,16 @@
 import { Router } from "express";
-
+import { verifyToken } from "../middleware/auth.middleware";
+import  validate  from "../middleware/validation.middleware";
 import {
   createProject,
   getProjects,
   getProjectById,
   updateProject,
-  deleteProject,
 } from "../controllers/project.controller";
-
-import { verifyToken } from "../middleware/auth.middleware";
-import validate from "../middleware/validation.middleware";
-
 import {
   createProjectSchema,
   updateProjectSchema,
-} from "../schemas/project.schema";
+} from "../validators/project.validator";
 
 const router = Router();
 
@@ -29,7 +25,7 @@ router.post(
 // Get All Projects
 router.get("/", verifyToken, getProjects);
 
-// Get Single Project
+// Get Project By ID
 router.get("/:id", verifyToken, getProjectById);
 
 // Update Project
@@ -39,8 +35,5 @@ router.put(
   validate(updateProjectSchema),
   updateProject
 );
-
-// Delete Project
-router.delete("/:id", verifyToken, deleteProject);
 
 export default router;
