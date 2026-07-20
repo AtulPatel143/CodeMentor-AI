@@ -1,16 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+
 export interface AuthRequest extends Request {
   user?: {
     id: string;
+    email?: string;
   };
+}
+
+interface JwtPayload {
+  id: string;
+  email?: string;
 }
 
 export const verifyToken = (
   req: AuthRequest,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): void => {
   try {
     const authHeader = req.headers.authorization;
@@ -25,11 +32,15 @@ export const verifyToken = (
 
     const token = authHeader.split(" ")[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
-      id: string;
-    };
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload;
 
-    req.user = decoded;
+    req.user = {
+      id: decoded.id,
+      email: decoded.email,
+    };
 
     next();
   } catch (error) {
@@ -40,4 +51,4 @@ export const verifyToken = (
       message: "Invalid or expired token",
     });
   }
-};
+}
