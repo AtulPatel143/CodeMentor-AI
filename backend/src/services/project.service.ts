@@ -14,6 +14,22 @@ export const createProject = async (
   });
 };
 
+export const createProjectWithId = async (
+  id: string,
+  userId: string,
+  title: string,
+  description: string,
+) => {
+  return await prisma.project.create({
+    data: {
+      id,
+      title,
+      description,
+      userId,
+    },
+  });
+};
+
 export const getProjects = async (userId: string) => {
   return await prisma.project.findMany({
     where: {
@@ -26,12 +42,17 @@ export const getProjects = async (userId: string) => {
 };
 
 export const getProjectById = async (id: string, userId: string) => {
-  return await prisma.project.findFirst({
+  const project = await prisma.project.findUnique({
     where: {
       id,
-      userId,
     },
   });
+
+  if (!project || project.userId !== userId) {
+    return null;
+  }
+
+  return project;
 };
 
 export const updateProject = async (
@@ -51,7 +72,7 @@ export const updateProject = async (
   });
 };
 
-export const deleteProject = async (id: string, userId: string) => {
+export const deleteProject = async (id: string) => {
   return await prisma.project.delete({
     where: {
       id,

@@ -3,10 +3,7 @@ import { AuthRequest } from "../middleware/auth.middleware";
 import * as projectService from "../services/project.service";
 
 // Create Project
-export const createProject = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const createProject = async (req: AuthRequest, res: Response) => {
   try {
     const { title, description } = req.body;
 
@@ -15,7 +12,7 @@ export const createProject = async (
     const project = await projectService.createProject(
       userId,
       title,
-      description
+      description,
     );
 
     res.status(201).json({
@@ -33,10 +30,7 @@ export const createProject = async (
 };
 
 // Get All Projects
-export const getProjects = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const getProjects = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
 
@@ -56,16 +50,13 @@ export const getProjects = async (
 };
 
 // Get Single Project
-export const getProjectById = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const getProjectById = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
 
     const project = await projectService.getProjectById(
       req.params.id as string,
-      userId
+      userId,
     );
 
     if (!project) {
@@ -89,10 +80,7 @@ export const getProjectById = async (
 };
 
 // Update Project
-export const updateProject = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const updateProject = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user!.id;
 
@@ -102,7 +90,7 @@ export const updateProject = async (
       req.params.id as string,
       userId,
       title,
-      description
+      description,
     );
 
     res.status(200).json({
@@ -120,24 +108,34 @@ export const updateProject = async (
 };
 
 // Delete Project
+
 export const deleteProject = async (
   req: AuthRequest,
   res: Response
 ) => {
   try {
-    const userId = req.user!.id;
+    const id = req.params.id as string;
 
-    await projectService.deleteProject(
-      req.params.id as string,
-      userId
+    const project = await projectService.getProjectById(
+      id,
+      req.user!.id
     );
 
-    res.status(200).json({
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
+
+    await projectService.deleteProject(id);
+
+    return res.status(200).json({
       success: true,
       message: "Project deleted successfully",
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Failed to delete project",
       error,

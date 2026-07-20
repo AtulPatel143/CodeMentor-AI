@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
 import projectRoutes from "./routes/project.routes";
+import taskRoutes from "./routes/task.routes";
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.get("/", (_req, res) => {
     message: "Welcome to CodeMentor AI Backend 🚀",
   });
 });
+app.use("/api/tasks", taskRoutes);
 
 export default app;
