@@ -1,41 +1,61 @@
 # 🚀 CodeMentor AI
 
-A full-stack project for managing coding projects and tasks.
+A full-stack MERN application for managing coding projects and tasks with secure JWT authentication.
 
-> Backend is built with Express, TypeScript, Prisma, PostgreSQL, and JWT Authentication.
+The backend is built using **Express.js**, **TypeScript**, **Prisma ORM**, and **PostgreSQL**, following a clean and scalable architecture.
 
 ---
 
 ## ✨ Features
 
-- 🔐 JWT Authentication
-- 📁 Project Management
-- ✅ Task Management
-- 📊 Dashboard Statistics
-- 🔍 Search
-- 📄 Pagination
-- 📚 Swagger API Documentation
-- ☁️ Deployed on Render
-- 🐘 PostgreSQL (Neon)
+### 🔐 Authentication
+- User Registration
+- User Login
+- JWT Authentication
+- Protected Routes
+- Profile API
+
+### 📂 Project Management
+- Create Projects
+- Update Projects
+- Delete Projects
+- Ownership Validation
+- Search Projects
+- Pagination
+
+### 📋 Task Management
+- Create Tasks
+- Update Task Status
+- Delete Tasks
+
+### 📊 Dashboard
+- Project Statistics
+- Task Statistics
+
+### 📖 Developer Experience
+- Swagger API Documentation
+- Zod Request Validation
+- Centralized Environment Configuration
+- Prisma ORM
+- RESTful API Design
 
 ---
 
 ## 🛠 Tech Stack
 
 ### Backend
-
 - Express.js
 - TypeScript
 - Prisma ORM
-- PostgreSQL
-- JWT
+- PostgreSQL (Neon)
+- JWT Authentication
 - Zod
 - Swagger
+- bcrypt
 
 ### Deployment
-
 - Render
-- Neon Database
+- Neon PostgreSQL
 
 ---
 
@@ -45,60 +65,13 @@ A full-stack project for managing coding projects and tasks.
 CodeMentor-AI/
 │
 ├── backend/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── routes/
+│   ├── services/
+│   ├── prisma/
+│   └── app.ts
+│
 ├── frontend/
+│
 └── README.md
-```
-
----
-
-## ⚙️ Backend Setup
-
-```bash
-cd backend
-npm install
-```
-
-Create a `.env` file:
-
-```env
-DATABASE_URL=your_database_url
-JWT_SECRET=your_secret_key
-```
-
-Run the project:
-
-```bash
-npm run dev
-```
-
----
-
-## 📚 API Documentation
-
-After starting the backend:
-
-```
-http://localhost:5000/api-docs
-```
-
-Production:
-
-```
-https://codementor-ai-pa8o.onrender.com/api-docs
-```
-
----
-
-## 🌍 Live Backend
-
-```
-https://codementor-ai-pa8o.onrender.com
-```
-
----
-
-## 📌 Status
-
-✅ Backend Completed
-
-🚧 Frontend Coming Soon
