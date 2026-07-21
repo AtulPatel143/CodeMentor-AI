@@ -42,10 +42,6 @@ export const getProjects = async (userId: string) => {
 };
 
 export const getProjectById = async (id: string, userId: string) => {
-  console.log("========== getProjectById ==========");
-  console.log("ID:", id);
-  console.log("USER ID:", userId);
-
   const project = await prisma.project.findUnique({
     where: { id },
   });
