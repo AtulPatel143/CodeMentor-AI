@@ -22,12 +22,11 @@ export const createTask = async (
     let project = await projectService.getProjectById(projectId, userId);
 
     if (!project) {
-      project = await projectService.createProjectWithId(
-        projectId,
-        userId,
-        "Untitled Project",
-        "Auto-created for task",
-      );
+      res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+      return;
     }
 
     const task = await taskService.createTask(title, description, project.id);
@@ -41,6 +40,46 @@ export const createTask = async (
     res.status(500).json({
       success: false,
       message: "Failed to create task",
+    });
+  }
+};
+
+export const getTasksByProject = async (req: AuthRequest, res: Response) => {
+  try {
+    const projectId = Array.isArray(req.params.projectId)
+      ? req.params.projectId[0]
+      : req.params.projectId;
+    const { status, search } = req.query;
+
+    // Verify the project belongs to the logged-in user
+    const project = await projectService.getProjectById(
+      projectId,
+      req.user!.id,
+    );
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
+
+    const tasks = await taskService.getTasksByProject(
+      projectId,
+      status as string,
+      search as string,
+    );
+
+    return res.status(200).json({
+      success: true,
+      count: tasks.length,
+      tasks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch tasks",
+      error,
     });
   }
 };
