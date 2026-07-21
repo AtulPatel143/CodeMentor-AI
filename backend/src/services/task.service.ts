@@ -43,3 +43,35 @@ export const getTasksByProject = async (
     },
   });
 };
+
+export const updateTask = async (
+  taskId: string,
+  userId: string,
+  title: string,
+  description: string,
+  status: string,
+) => {
+  const task = await prisma.task.findUnique({
+    where: {
+      id: taskId,
+    },
+    include: {
+      project: true,
+    },
+  });
+
+  if (!task || task.project.userId !== userId) {
+    return null;
+  }
+
+  return await prisma.task.update({
+    where: {
+      id: taskId,
+    },
+    data: {
+      title,
+      description,
+      status,
+    },
+  });
+};

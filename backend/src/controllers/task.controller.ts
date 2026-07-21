@@ -88,3 +88,37 @@ export const getTasksByProject = async (req: AuthRequest, res: Response) => {
     });
   }
 };
+
+export const updateTask = async (req: AuthRequest, res: Response) => {
+  try {
+    const { title, description, status } = req.body;
+
+    const task = await taskService.updateTask(
+      req.params.id,
+      req.user!.id,
+      title,
+      description,
+      status,
+    );
+
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Task updated successfully",
+      data: task,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
