@@ -24,6 +24,10 @@ app.get("/", (_req, res) => {
 });
 app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.get("/api-docs-test", (_req, res) => {
+  res.send("Swagger route is reachable");
+});
+//app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default app;
