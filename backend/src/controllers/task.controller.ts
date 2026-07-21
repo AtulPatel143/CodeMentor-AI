@@ -92,9 +92,10 @@ export const getTasksByProject = async (req: AuthRequest, res: Response) => {
 export const updateTask = async (req: AuthRequest, res: Response) => {
   try {
     const { title, description, status } = req.body;
+    const taskId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 
     const task = await taskService.updateTask(
-      req.params.id,
+      taskId,
       req.user!.id,
       title,
       description,
