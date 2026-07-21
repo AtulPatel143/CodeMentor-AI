@@ -2,7 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { signupSchema, type SignupFormData } from "../schemas/signup.schema";
+import { signupSchema, type SignupFormData } from "../../schemas/signup.schema";
+
+import axios from "axios";
+import { signupUser } from "../../services/auth.service";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -16,11 +19,24 @@ function SignupPage() {
     mode: "onTouched",
   });
 
-  const handleSignup = (data: SignupFormData) => {
-    console.log(data);
+  const handleSignup = async (data: SignupFormData) => {
+    try {
+      const response = await signupUser(data);
 
-    // Backend aane ke baad API call yahin hogi.
-    navigate("/login");
+      console.log("Signup Response:", response);
+
+      alert("Account created successfully!");
+
+      navigate("/login");
+    } catch (error) {
+      console.log("Signup Error:", error);
+
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data?.message ?? "Signup failed");
+      } else {
+        alert("Something went wrong");
+      }
+    }
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-6">

@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useAuth } from "../hooks/useAuth";
-import { loginSchema, type LoginFormData } from "../schemas/login.schema";
+import { useAuth } from "../../hooks/useAuth";
+import { loginSchema, type LoginFormData } from "../../schemas/login.schema";
+import { loginUser } from "../../services/auth.service";
+import axios from "axios";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -18,11 +19,28 @@ function LoginPage() {
     mode: "onTouched",
   });
 
-  const handleLogin = (data: LoginFormData) => {
-    console.log(data);
+  const handleLogin = async (data: LoginFormData) => {
+    try {
+      const response = await loginUser(data);
 
-    login();
-    navigate("/dashboard");
+      console.log("Response:", response);
+
+      login(response.token, response.user);
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.log("Login Error:", error);
+
+      if (axios.isAxiosError(error)) {
+        console.log("Response:", error.response);
+        console.log("Data:", error.response?.data);
+
+        alert(error.response?.data?.message ?? "Login failed");
+      } else {
+        console.log("Unknown Error:", error);
+        alert("Something went wrong");
+      }
+    }
   };
 
   return (

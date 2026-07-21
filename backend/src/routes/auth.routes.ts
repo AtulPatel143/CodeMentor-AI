@@ -45,7 +45,6 @@ const router = Router();
  *       400:
  *         description: Validation error
  */
-router.post("/register", registerUser);
 
 // Public Routes
 router.post("/register", validate(registerSchema), registerUser);
@@ -79,7 +78,6 @@ router.post("/register", validate(registerSchema), registerUser);
  *         description: Invalid credentials
  */
 
-router.post("/login", loginUser);
 router.post("/login", validate(loginSchema), loginUser);
 
 // Protected Route
