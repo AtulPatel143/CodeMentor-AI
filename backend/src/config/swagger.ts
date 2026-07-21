@@ -29,7 +29,7 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-  apis: [path.join(__dirname, "../routes/*.js")],
+  apis: [path.resolve(__dirname, "../routes/*.{js,ts}")],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

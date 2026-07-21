@@ -93,6 +93,13 @@ export const updateProject = async (req: AuthRequest, res: Response) => {
       description,
     );
 
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Project updated successfully",
@@ -128,7 +135,14 @@ export const deleteProject = async (
       });
     }
 
-    await projectService.deleteProject(id);
+    const deleted = await projectService.deleteProject(id, req.user!.id);
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
 
     return res.status(200).json({
       success: true,

@@ -42,19 +42,12 @@ export const getProjects = async (userId: string) => {
 };
 
 export const getProjectById = async (id: string, userId: string) => {
-  const project = await prisma.project.findUnique({
-    where: { id },
+  return await prisma.project.findFirst({
+    where: {
+      id,
+      userId,
+    },
   });
-
-  console.log("PROJECT:", project);
-
-  if (!project || project.userId !== userId) {
-    console.log("Returning NULL");
-    return null;
-  }
-
-  console.log("Returning PROJECT");
-  return project;
 };
 
 export const updateProject = async (
@@ -63,6 +56,17 @@ export const updateProject = async (
   title?: string,
   description?: string,
 ) => {
+  const existingProject = await prisma.project.findFirst({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  if (!existingProject) {
+    return null;
+  }
+
   return await prisma.project.update({
     where: {
       id,
@@ -74,10 +78,23 @@ export const updateProject = async (
   });
 };
 
-export const deleteProject = async (id: string) => {
-  return await prisma.project.delete({
+export const deleteProject = async (id: string, userId: string) => {
+  const existingProject = await prisma.project.findFirst({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  if (!existingProject) {
+    return false;
+  }
+
+  await prisma.project.delete({
     where: {
       id,
     },
   });
+
+  return true;
 };
