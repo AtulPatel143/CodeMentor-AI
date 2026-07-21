@@ -4,6 +4,8 @@ import authRoutes from "./routes/auth.routes";
 import projectRoutes from "./routes/project.routes";
 import taskRoutes from "./routes/task.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger";
 
 const app = express();
 
@@ -22,5 +24,6 @@ app.get("/", (_req, res) => {
 });
 app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default app;

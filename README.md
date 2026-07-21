@@ -1,11 +1,33 @@
-# CodeMentor-AI
+# CodeMentor AI Backend
 
-## ✅ Completed
+## Features
 
-- Authentication Module
-  - User Registration
-  - User Login
-  - JWT Authentication
-  - Protected Routes
-  - Zod Validation
-  - Global Error Handling
+- JWT Authentication
+- Project Management
+- Task Management
+- Search
+- Filtering
+- Pagination
+- Dashboard API
+- Swagger Documentation
+
+## Tech Stack
+
+- Express
+- TypeScript
+- Prisma
+- PostgreSQL
+- JWT
+- Zod
+
+## Installation
+
+...
+
+## API Documentation
+
+/api-docs
+
+## Live Demo
+
+https://...
