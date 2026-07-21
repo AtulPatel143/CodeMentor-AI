@@ -18,7 +18,10 @@ export const getTasksByProject = async (
   projectId: string,
   status?: string,
   search?: string,
+  page: number = 1,
+  limit: number = 10,
 ) => {
+  const skip = (page - 1) * limit;
   return await prisma.task.findMany({
     where: {
       projectId,
@@ -32,6 +35,8 @@ export const getTasksByProject = async (
         },
       }),
     },
+    skip,
+    take: limit,
 
     orderBy: {
       createdAt: "desc",

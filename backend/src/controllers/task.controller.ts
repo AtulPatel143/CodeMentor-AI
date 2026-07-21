@@ -51,6 +51,9 @@ export const getTasksByProject = async (req: AuthRequest, res: Response) => {
       : req.params.projectId;
     const { status, search } = req.query;
 
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
     // Verify the project belongs to the logged-in user
     const project = await projectService.getProjectById(
       projectId,
@@ -68,6 +71,8 @@ export const getTasksByProject = async (req: AuthRequest, res: Response) => {
       projectId,
       status as string,
       search as string,
+      page,
+      limit,
     );
 
     return res.status(200).json({
