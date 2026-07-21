@@ -92,7 +92,9 @@ export const getTasksByProject = async (req: AuthRequest, res: Response) => {
 export const updateTask = async (req: AuthRequest, res: Response) => {
   try {
     const { title, description, status } = req.body;
-    const taskId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const taskId = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
 
     const task = await taskService.updateTask(
       taskId,
@@ -113,6 +115,32 @@ export const updateTask = async (req: AuthRequest, res: Response) => {
       success: true,
       message: "Task updated successfully",
       data: task,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export const deleteTask = async (req: AuthRequest, res: Response) => {
+  try {
+    const taskId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const deleted = await taskService.deleteTask(taskId, req.user!.id);
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Task deleted successfully",
     });
   } catch (error) {
     console.error(error);

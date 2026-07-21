@@ -75,3 +75,26 @@ export const updateTask = async (
     },
   });
 };
+
+export const deleteTask = async (taskId: string, userId: string) => {
+  const task = await prisma.task.findUnique({
+    where: {
+      id: taskId,
+    },
+    include: {
+      project: true,
+    },
+  });
+
+  if (!task || task.project.userId !== userId) {
+    return null;
+  }
+
+  await prisma.task.delete({
+    where: {
+      id: taskId,
+    },
+  });
+
+  return true;
+};
