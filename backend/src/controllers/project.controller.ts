@@ -156,3 +156,24 @@ export const deleteProject = async (
     });
   }
 };
+
+export const getRecentProjects = async (
+  req: AuthRequest,
+  res: Response,
+) => {
+  try {
+    const projects = await projectService.getRecentProjects(req.user!.id);
+
+    res.status(200).json({
+      success: true,
+      count: projects.length,
+      data: projects,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch recent projects",
+      error,
+    });
+  }
+};

@@ -98,3 +98,15 @@ export const deleteProject = async (id: string, userId: string) => {
 
   return true;
 };
+
+export const getRecentProjects = async (userId: string) => {
+  return prisma.project.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+};

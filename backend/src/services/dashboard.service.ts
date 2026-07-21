@@ -42,11 +42,18 @@ export const getDashboardStats = async (userId: string) => {
     },
   });
 
+  const pendingTasks = todoTasks + inProgressTasks;
+
+  const progress =
+    totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+
   return {
     totalProjects,
     totalTasks,
     todoTasks,
     inProgressTasks,
     completedTasks,
+    pendingTasks,
+    progress,
   };
 };

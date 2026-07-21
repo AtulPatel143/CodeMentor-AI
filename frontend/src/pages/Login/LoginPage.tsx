@@ -32,12 +32,8 @@ function LoginPage() {
       console.log("Login Error:", error);
 
       if (axios.isAxiosError(error)) {
-        console.log("Response:", error.response);
-        console.log("Data:", error.response?.data);
-
         alert(error.response?.data?.message ?? "Login failed");
       } else {
-        console.log("Unknown Error:", error);
         alert("Something went wrong");
       }
     }

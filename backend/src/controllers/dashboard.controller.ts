@@ -1,15 +1,10 @@
-import { Request, Response } from "express";
-import * as dashboardService from "../services/dashboard.service";
+import { Response } from "express";
 import { AuthRequest } from "../middleware/auth.middleware";
+import * as dashboardService from "../services/dashboard.service";
 
-export const getDashboard = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const getDashboardStats = async (req: AuthRequest, res: Response) => {
   try {
-    const stats = await dashboardService.getDashboardStats(
-      req.user!.id
-    );
+    const stats = await dashboardService.getDashboardStats(req.user!.id);
 
     return res.status(200).json({
       success: true,

@@ -2,9 +2,10 @@ import { Response } from "express";
 import { AuthRequest } from "../middleware/auth.middleware";
 import * as projectService from "../services/project.service";
 
+// Create Project
 export const createProject = async (
   req: AuthRequest,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { title, description } = req.body;
@@ -12,7 +13,7 @@ export const createProject = async (
     const project = await projectService.createProject(
       title,
       description,
-      req.user!.id
+      req.user!.id,
     );
 
     res.status(201).json({
@@ -28,9 +29,10 @@ export const createProject = async (
   }
 };
 
+// Get All Projects
 export const getProjects = async (
   req: AuthRequest,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const projects = await projectService.getProjects(req.user!.id);
@@ -48,17 +50,15 @@ export const getProjects = async (
   }
 };
 
+// Get Project By ID
 export const getProjectById = async (
   req: AuthRequest,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const id = req.params.id as string;
 
-    const project = await projectService.getProjectById(
-      id,
-      req.user!.id
-    );
+    const project = await projectService.getProjectById(id, req.user!.id);
 
     if (!project) {
       res.status(404).json({
@@ -80,18 +80,16 @@ export const getProjectById = async (
   }
 };
 
+// Update Project
 export const updateProject = async (
   req: AuthRequest,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const id = req.params.id as string;
     const { title, description } = req.body;
 
-    const project = await projectService.getProjectById(
-      id,
-      req.user!.id
-    );
+    const project = await projectService.getProjectById(id, req.user!.id);
 
     if (!project) {
       res.status(404).json({
@@ -105,7 +103,7 @@ export const updateProject = async (
       id,
       req.user!.id,
       title,
-      description
+      description,
     );
 
     res.status(200).json({
@@ -117,6 +115,58 @@ export const updateProject = async (
     res.status(500).json({
       success: false,
       message: "Failed to update project",
+    });
+  }
+};
+
+// Delete Project
+export const deleteProject = async (
+  req: AuthRequest,
+  res: Response,
+): Promise<void> => {
+  try {
+    const id = req.params.id as string;
+
+    const project = await projectService.getProjectById(id, req.user!.id);
+
+    if (!project) {
+      res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+      return;
+    }
+
+    await projectService.deleteProject(id, req.user!.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Project deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete project",
+    });
+  }
+};
+
+// Get Recent Projects
+export const getRecentProjects = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
+  try {
+    const projects = await projectService.getRecentProjects(req.user!.id);
+
+    res.status(200).json({
+      success: true,
+      data: projects,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch recent projects",
     });
   }
 };
