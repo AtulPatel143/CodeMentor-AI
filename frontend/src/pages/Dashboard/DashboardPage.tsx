@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { FolderKanban, CheckCircle, Clock3, TrendingUp } from "lucide-react";
+import {
+  FolderKanban,
+  CheckCircle,
+  Clock3,
+  TrendingUp,
+} from "lucide-react";
 
 import DashboardLayout from "./DashboardLayout";
 import StatsCard from "./StatsCard";
+
 import { getDashboardStats } from "../../services/dashboard.service";
+import { getRecentProjects } from "../../services/project.service";
 
 interface DashboardStats {
   totalProjects: number;
@@ -13,6 +20,12 @@ interface DashboardStats {
   completedTasks: number;
   pendingTasks: number;
   progress: number;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
 }
 
 const DashboardPage = () => {
@@ -26,25 +39,35 @@ const DashboardPage = () => {
     progress: 0,
   });
 
+  const [recentProjects, setRecentProjects] = useState<Project[]>([]);
+
   useEffect(() => {
-    const fetchDashboardStats = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const response = await getDashboardStats();
-        setStats(response.data);
+        const statsResponse = await getDashboardStats();
+        setStats(statsResponse.data);
+
+        const recentResponse = await getRecentProjects();
+        setRecentProjects(recentResponse.data);
       } catch (error) {
-        console.error("Failed to fetch dashboard stats:", error);
+        console.error("Failed to fetch dashboard data:", error);
       }
     };
 
-    fetchDashboardStats();
+    fetchDashboardData();
   }, []);
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold">Welcome to CodeMentor AI 🚀</h1>
+      <h1 className="text-3xl font-bold">
+        Welcome to CodeMentor AI 🚀
+      </h1>
 
-      <p className="mt-2 text-gray-600">Your dashboard is ready.</p>
+      <p className="mt-2 text-gray-600">
+        Your dashboard is ready.
+      </p>
 
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
         <StatsCard
           title="Total Projects"
@@ -69,6 +92,36 @@ const DashboardPage = () => {
           value={`${stats.progress}%`}
           icon={TrendingUp}
         />
+      </div>
+
+      {/* Recent Projects */}
+      <div className="mt-10">
+        <h2 className="text-2xl font-semibold mb-4">
+          Recent Projects
+        </h2>
+
+        {recentProjects.length === 0 ? (
+          <p className="text-gray-500">
+            No recent projects found.
+          </p>
+        ) : (
+          <div className="grid gap-4">
+            {recentProjects.map((project) => (
+              <div
+                key={project.id}
+                className="rounded-lg border bg-white p-4 shadow-sm"
+              >
+                <h3 className="text-lg font-semibold">
+                  {project.title}
+                </h3>
+
+                <p className="mt-1 text-gray-600">
+                  {project.description || "No description"}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </DashboardLayout>
   );
