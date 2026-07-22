@@ -4,6 +4,7 @@ import DashboardLayout from "./DashboardLayout";
 import ProjectModal from "./ProjectModal";
 import { deleteProject, getProjectById } from "../../services/project.service";
 import toast from "react-hot-toast";
+import ChatPanel from "../../components/ChatPanel";
 
 type Project = {
   id: string;
@@ -137,6 +138,10 @@ const ProjectDetails = () => {
           Created: {new Date(project.createdAt).toLocaleString()}
         </div>
       </div>
+
+      {/* 👇 Add ChatPanel here */}
+      <ChatPanel projectId={project.id} />
+
       <ProjectModal
         isOpen={isEditOpen}
         onClose={() => setIsEditOpen(false)}

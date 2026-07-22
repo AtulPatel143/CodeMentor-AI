@@ -1,77 +1,265 @@
 # 🚀 CodeMentor AI
 
-A full-stack MERN application for managing coding projects and tasks with secure JWT authentication.
+CodeMentor AI is an AI-powered coding mentor that helps developers understand, improve, and learn code through intelligent conversations.
 
-The backend is built using **Express.js**, **TypeScript**, **Prisma ORM**, and **PostgreSQL**, following a clean and scalable architecture.
+Unlike traditional AI code assistants that focus on code generation, CodeMentor AI focuses on **teaching**. It explains code, suggests improvements, answers programming questions, and will eventually support voice interactions and VS Code integration.
 
 ---
 
-## ✨ Features
+# 🎯 Vision
 
-### 🔐 Authentication
+The goal is to build an AI mentor that feels like an experienced software engineer sitting beside you.
+
+Users can:
+
+- Ask questions about their code
+- Understand algorithms and logic
+- Improve code quality
+- Learn DSA concepts
+- Receive AI-guided explanations
+- Interact using voice
+- Edit code through AI suggestions
+
+---
+
+# ✨ Features
+
+## 🔐 Authentication
+
 - User Registration
 - User Login
 - JWT Authentication
 - Protected Routes
-- Profile API
+- User Profile
 
-### 📂 Project Management
+---
+
+## 📂 Project Management
+
 - Create Projects
 - Update Projects
 - Delete Projects
-- Ownership Validation
 - Search Projects
 - Pagination
+- Ownership Validation
 
-### 📋 Task Management
+---
+
+## 📋 Task Management
+
 - Create Tasks
 - Update Task Status
 - Delete Tasks
 
-### 📊 Dashboard
+---
+
+## 📊 Dashboard
+
 - Project Statistics
 - Task Statistics
-
-### 📖 Developer Experience
-- Swagger API Documentation
-- Zod Request Validation
-- Centralized Environment Configuration
-- Prisma ORM
-- RESTful API Design
+- Recent Projects
+- Recent Tasks
 
 ---
 
-## 🛠 Tech Stack
+## 🤖 AI Assistant
 
-### Backend
+Current
+
+- AI Chat UI
+- Project-specific Chat Interface
+- Backend AI API Ready
+- Placeholder AI Responses
+
+Upcoming
+
+- OpenAI Integration
+- Code Explanation
+- Code Review
+- Bug Detection
+- Algorithm Explanation
+- AI Code Improvement
+- Conversation History
+- Context-aware Responses
+
+---
+
+## 🎤 Voice Assistant (Upcoming)
+
+- Voice Input
+- Voice Output
+- Natural Conversations
+- Hands-free Coding Assistance
+
+---
+
+## 💻 VS Code Extension (Upcoming)
+
+Users will be able to:
+
+- Select code
+- Ask AI to explain it
+- Improve code
+- Refactor code
+- Learn line-by-line explanations
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React
+- TypeScript
+- Tailwind CSS
+- React Router
+- Axios
+- React Hook Form
+- Zod
+
+---
+
+## Backend
+
 - Express.js
 - TypeScript
 - Prisma ORM
-- PostgreSQL (Neon)
+- PostgreSQL
 - JWT Authentication
-- Zod
 - Swagger
+- Zod
 - bcrypt
 
-### Deployment
+---
+
+## Database
+
+- PostgreSQL (Neon)
+
+---
+
+## Deployment
+
 - Render
 - Neon PostgreSQL
 
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
-```text
+```
 CodeMentor-AI/
-│
-├── backend/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── routes/
-│   ├── services/
-│   ├── prisma/
-│   └── app.ts
-│
+
 ├── frontend/
-│
+├── backend/
 └── README.md
+```
+
+---
+
+# 🚀 Current Progress
+
+## Backend ✅
+
+- JWT Authentication
+- Projects CRUD
+- Tasks CRUD
+- Dashboard API
+- Swagger Documentation
+- Render Deployment
+
+---
+
+## Frontend ✅
+
+- Authentication UI
+- Protected Routes
+- Dashboard
+- Project CRUD
+- AI Chat Interface
+- Responsive Layout
+
+---
+
+## AI 🚧
+
+Completed
+
+- AI Chat UI
+- Backend AI Endpoint
+- Placeholder Responses
+
+In Progress
+
+- OpenAI Integration
+
+Planned
+
+- Chat History
+- Code Explanation
+- Voice Assistant
+- VS Code Extension
+
+---
+
+# 🌟 Long-term Roadmap
+
+### Phase 1
+
+✅ Full Stack Project Management System
+
+---
+
+### Phase 2
+
+🔄 AI Chat Integration
+
+---
+
+### Phase 3
+
+⏳ Code Explanation Engine
+
+---
+
+### Phase 4
+
+⏳ Voice Assistant
+
+---
+
+### Phase 5
+
+⏳ VS Code Extension
+
+---
+
+### Phase 6
+
+⏳ AI Coding Mentor Platform
+
+---
+
+# 💡 Inspiration
+
+CodeMentor AI is inspired by tools like:
+
+- ChatGPT
+- GitHub Copilot
+- Cursor AI
+
+But its primary focus is **education**, not just code generation.
+
+The objective is to help developers understand **why** code works, not only **what** code to write.
+
+---
+
+# 📌 Status
+
+🟢 Backend Completed
+
+🟢 Frontend Core Completed
+
+🟡 AI Integration In Progress
+
+🚀 Voice Assistant & VS Code Extension Coming Soon
