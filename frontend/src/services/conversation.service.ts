@@ -22,7 +22,7 @@ export const sendStreamMessage = async (
   const token = localStorage.getItem("token");
 
   const response = await fetch(
-    `http://localhost:5000/api/projects/${projectId}/chat/stream`,
+    `${import.meta.env.VITE_API_URL}/api/projects/${projectId}/chat/stream`,
     {
       method: "POST",
       headers: {
@@ -70,7 +70,6 @@ export const sendStreamMessage = async (
       const parsed = JSON.parse(data);
 
       fullResponse += parsed.chunk;
-
       onChunk(parsed.chunk);
     }
   }
