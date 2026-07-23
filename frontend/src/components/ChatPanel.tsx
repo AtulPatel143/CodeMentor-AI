@@ -77,14 +77,13 @@ const ChatPanel = ({ projectId }: ChatPanelProps) => {
           return next;
         });
       });
+      await fetchConversations();
 
       setLoading(false);
       setCurrentMessage("");
       setStreamingResponse("");
 
       inputRef.current?.focus();
-
-      await fetchConversations();
     } catch (error) {
       console.error(error);
 
