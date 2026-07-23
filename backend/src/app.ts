@@ -11,7 +11,15 @@ import conversationRoutes from "./routes/conversation.routes";
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Vite local
+      "https://code-mentor-ai-phi.vercel.app", // बाद में अपना Vercel URL डालना
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
@@ -32,6 +40,5 @@ app.get("/test", (_req, res) => {
     message: "Latest deployment is running!",
   });
 });
-
 
 export default app;
