@@ -5,6 +5,7 @@ import ProjectModal from "./ProjectModal";
 import { deleteProject, getProjectById } from "../../services/project.service";
 import toast from "react-hot-toast";
 import ChatPanel from "../../components/ChatPanel";
+import axios from "axios";
 
 type Project = {
   id: string;
@@ -53,8 +54,14 @@ const ProjectDetails = () => {
     try {
       const response = await getProjectById(id);
       setProject(response.project);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
+
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        setProject(null);
+        return;
+      }
+
       toast.error("Failed to refresh project");
     }
   };
@@ -68,8 +75,14 @@ const ProjectDetails = () => {
 
         const response = await getProjectById(id);
         setProject(response.project);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
+
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          setProject(null);
+          return;
+        }
+
         toast.error("Failed to load project");
       } finally {
         setLoading(false);

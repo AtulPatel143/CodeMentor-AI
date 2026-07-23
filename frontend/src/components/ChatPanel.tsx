@@ -93,6 +93,7 @@ const ChatPanel = ({ projectId }: ChatPanelProps) => {
       setStreamingResponse("");
     }
   };
+  const displayResponse = streamingResponse || (loading ? "Thinking..." : "");
 
   return (
     <div className="mt-10 rounded-xl bg-white p-6 shadow-sm">
@@ -161,7 +162,7 @@ const ChatPanel = ({ projectId }: ChatPanelProps) => {
                   },
                 }}
               >
-                {streamingResponse + (loading ? "▋" : "")}
+                {displayResponse + (loading ? " ▋" : "")}
               </ReactMarkdown>
             </div>
           </div>

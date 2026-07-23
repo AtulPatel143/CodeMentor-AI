@@ -1,24 +1,39 @@
-# 🚀 CodeMentor AI
+# 🤖 CodeMentor AI
 
-CodeMentor AI is an AI-powered coding mentor that helps developers understand, improve, and learn code through intelligent conversations.
+> An AI-powered coding assistant that helps developers manage projects, chat with AI, and receive intelligent coding guidance in real time.
 
-Unlike traditional AI code assistants that focus on code generation, CodeMentor AI focuses on **teaching**. It explains code, suggests improvements, answers programming questions, and will eventually support voice interactions and VS Code integration.
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![Node.js](https://img.shields.io/badge/Node.js-Express-green?logo=node.js)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?logo=prisma)
+![Gemini](https://img.shields.io/badge/Google-Gemini-orange?logo=google)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
 ---
 
-# 🎯 Vision
+## 📸 Screenshots
 
-The goal is to build an AI mentor that feels like an experienced software engineer sitting beside you.
+### Dashboard
 
-Users can:
+![Dashboard](./screenshots/dashboard.png)
 
-- Ask questions about their code
-- Understand algorithms and logic
-- Improve code quality
-- Learn DSA concepts
-- Receive AI-guided explanations
-- Interact using voice
-- Edit code through AI suggestions
+### Projects
+
+![Projects](./screenshots/projects.png)
+
+### Project Details
+
+![Project Details](./screenshots/project-details.png)
+
+### AI Chat (Streaming)
+
+![AI Chat](./screenshots/chat.png)
+
+### Authentication
+
+![Login](./screenshots/login.png)
+
+> Place screenshots inside a `screenshots/` folder.
 
 ---
 
@@ -27,81 +42,41 @@ Users can:
 ## 🔐 Authentication
 
 - User Registration
-- User Login
+- Secure Login
 - JWT Authentication
 - Protected Routes
-- User Profile
 
 ---
 
-## 📂 Project Management
+## 📁 Project Management
 
-- Create Projects
-- Update Projects
-- Delete Projects
+- Create Project
+- Edit Project
+- Delete Project
+- View Project Details
 - Search Projects
-- Pagination
-- Ownership Validation
-
----
-
-## 📋 Task Management
-
-- Create Tasks
-- Update Task Status
-- Delete Tasks
-
----
-
-## 📊 Dashboard
-
-- Project Statistics
-- Task Statistics
-- Recent Projects
-- Recent Tasks
 
 ---
 
 ## 🤖 AI Assistant
 
-Current
-
-- AI Chat UI
-- Project-specific Chat Interface
-- Backend AI API Ready
-- Placeholder AI Responses
-
-Upcoming
-
-- OpenAI Integration
-- Code Explanation
-- Code Review
-- Bug Detection
-- Algorithm Explanation
-- AI Code Improvement
+- Google Gemini Integration
+- Real-time AI Streaming Responses
+- Markdown Rendering
+- Syntax Highlighted Code Blocks
 - Conversation History
-- Context-aware Responses
+- Chat per Project
 
 ---
 
-## 🎤 Voice Assistant (Upcoming)
+## 🎨 User Experience
 
-- Voice Input
-- Voice Output
-- Natural Conversations
-- Hands-free Coding Assistance
-
----
-
-## 💻 VS Code Extension (Upcoming)
-
-Users will be able to:
-
-- Select code
-- Ask AI to explain it
-- Improve code
-- Refactor code
-- Learn line-by-line explanations
+- Responsive UI
+- Loading States
+- Error Handling
+- Toast Notifications
+- Project Not Found Handling
+- Modern Dashboard Layout
 
 ---
 
@@ -111,155 +86,241 @@ Users will be able to:
 
 - React
 - TypeScript
-- Tailwind CSS
 - React Router
+- Tailwind CSS
 - Axios
-- React Hook Form
-- Zod
-
----
+- React Markdown
+- React Hot Toast
+- Highlight.js
 
 ## Backend
 
+- Node.js
 - Express.js
 - TypeScript
 - Prisma ORM
 - PostgreSQL
+- Google Gemini API
 - JWT Authentication
-- Swagger
-- Zod
-- bcrypt
 
 ---
 
-## Database
+# 📂 Project Structure
 
-- PostgreSQL (Neon)
-
----
-
-## Deployment
-
-- Render
-- Neon PostgreSQL
-
----
-
-# 📁 Project Structure
-
-```
-CodeMentor-AI/
-
-├── frontend/
-├── backend/
+```text
+CodeMentor-AI
+│
+├── frontend
+│   ├── src
+│   ├── components
+│   ├── pages
+│   ├── services
+│   └── ...
+│
+├── backend
+│   ├── controllers
+│   ├── routes
+│   ├── services
+│   ├── prisma
+│   ├── middleware
+│   └── ...
+│
 └── README.md
 ```
 
 ---
 
-# 🚀 Current Progress
+# 🚀 Getting Started
 
-## Backend ✅
+## 1️⃣ Clone Repository
 
-- JWT Authentication
-- Projects CRUD
-- Tasks CRUD
-- Dashboard API
-- Swagger Documentation
-- Render Deployment
+```bash
+git clone https://github.com/yourusername/codementor-ai.git
 
----
-
-## Frontend ✅
-
-- Authentication UI
-- Protected Routes
-- Dashboard
-- Project CRUD
-- AI Chat Interface
-- Responsive Layout
+cd codementor-ai
+```
 
 ---
 
-## AI 🚧
+## 2️⃣ Backend Setup
 
-Completed
+```bash
+cd backend
 
-- AI Chat UI
-- Backend AI Endpoint
-- Placeholder Responses
+npm install
+```
 
-In Progress
+Create `.env`
 
-- OpenAI Integration
+```env
+PORT=5000
 
-Planned
+DATABASE_URL=postgresql://username:password@localhost:5432/codementor
 
-- Chat History
-- Code Explanation
-- Voice Assistant
-- VS Code Extension
+JWT_SECRET=your_secret_key
 
----
+GEMINI_API_KEY=your_google_gemini_api_key
+```
 
-# 🌟 Long-term Roadmap
+Run Prisma
 
-### Phase 1
+```bash
+npx prisma migrate dev
 
-✅ Full Stack Project Management System
+npx prisma generate
+```
 
----
+Start server
 
-### Phase 2
-
-🔄 AI Chat Integration
-
----
-
-### Phase 3
-
-⏳ Code Explanation Engine
+```bash
+npm run dev
+```
 
 ---
 
-### Phase 4
+## 3️⃣ Frontend Setup
 
-⏳ Voice Assistant
+```bash
+cd frontend
 
----
+npm install
+```
 
-### Phase 5
+Create `.env`
 
-⏳ VS Code Extension
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
----
+Start frontend
 
-### Phase 6
-
-⏳ AI Coding Mentor Platform
-
----
-
-# 💡 Inspiration
-
-CodeMentor AI is inspired by tools like:
-
-- ChatGPT
-- GitHub Copilot
-- Cursor AI
-
-But its primary focus is **education**, not just code generation.
-
-The objective is to help developers understand **why** code works, not only **what** code to write.
+```bash
+npm run dev
+```
 
 ---
 
-# 📌 Status
+# 💬 AI Streaming
 
-🟢 Backend Completed
+The application uses **Server-Sent Events (SSE)** to stream AI responses from Google Gemini in real time.
 
-🟢 Frontend Core Completed
+### Backend
 
-🟡 AI Integration In Progress
+- Express
+- SSE
+- Async Generators
+- Gemini Streaming API
 
-🚀 Voice Assistant & VS Code Extension Coming Soon
+### Frontend
+
+- Fetch API
+- ReadableStream
+- Incremental Rendering
+- Live Markdown Updates
+
+---
+
+# 📸 Screenshots Folder
+
+```text
+screenshots/
+│
+├── dashboard.png
+├── projects.png
+├── project-details.png
+├── chat.png
+└── login.png
+```
+
+---
+
+# 📌 API Endpoints
+
+## Authentication
+
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/api/auth/register` | Register User |
+| POST | `/api/auth/login` | Login User |
+
+---
+
+## Projects
+
+| Method | Endpoint |
+|---------|----------|
+| GET | `/api/projects` |
+| POST | `/api/projects` |
+| GET | `/api/projects/:id` |
+| PUT | `/api/projects/:id` |
+| DELETE | `/api/projects/:id` |
+
+---
+
+## AI
+
+| Method | Endpoint |
+|---------|----------|
+| POST | `/api/conversations/message` |
+| POST | `/api/conversations/stream` |
+| GET | `/api/conversations/:projectId` |
+
+---
+
+# 🎯 Future Improvements
+
+- Copy Response
+- Stop Generation
+- Regenerate Response
+- Dark Mode
+- File Upload Support
+- Mermaid Diagram Rendering
+- LaTeX Support
+- Export Conversations
+- AI Conversation Search
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch
+
+```bash
+git checkout -b feature/my-feature
+```
+
+3. Commit changes
+
+```bash
+git commit -m "Add new feature"
+```
+
+4. Push
+
+```bash
+git push origin feature/my-feature
+```
+
+5. Open a Pull Request
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# 👨‍💻 Author
+
+**Atul Patel**
+
+- GitHub: https://github.com/yourusername
+- LinkedIn: https://linkedin.com/in/yourprofile
+
+---
+
+⭐ If you found this project useful, don't forget to star the repository!
