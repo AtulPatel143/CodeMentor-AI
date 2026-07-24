@@ -1,5 +1,5 @@
-import Sidebar from "./sidebar.tsx";
-import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+import Navbar from "../../components/workspace/Navbar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
