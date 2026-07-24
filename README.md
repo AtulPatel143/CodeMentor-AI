@@ -155,11 +155,11 @@ Create `.env`
 ```env
 PORT=5000
 
-DATABASE_URL=postgresql://username:password@localhost:5432/codementor
+DATABASE_URL=*****************
 
-JWT_SECRET=your_secret_key
+JWT_SECRET=**********************
 
-GEMINI_API_KEY=your_google_gemini_api_key
+GEMINI_API_KEY=***************
 ```
 
 Run Prisma
@@ -238,32 +238,32 @@ screenshots/
 
 ## Authentication
 
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | `/api/auth/register` | Register User |
-| POST | `/api/auth/login` | Login User |
+| Method | Endpoint             | Description   |
+| ------ | -------------------- | ------------- |
+| POST   | `/api/auth/register` | Register User |
+| POST   | `/api/auth/login`    | Login User    |
 
 ---
 
 ## Projects
 
-| Method | Endpoint |
-|---------|----------|
-| GET | `/api/projects` |
-| POST | `/api/projects` |
-| GET | `/api/projects/:id` |
-| PUT | `/api/projects/:id` |
+| Method | Endpoint            |
+| ------ | ------------------- |
+| GET    | `/api/projects`     |
+| POST   | `/api/projects`     |
+| GET    | `/api/projects/:id` |
+| PUT    | `/api/projects/:id` |
 | DELETE | `/api/projects/:id` |
 
 ---
 
 ## AI
 
-| Method | Endpoint |
-|---------|----------|
-| POST | `/api/conversations/message` |
-| POST | `/api/conversations/stream` |
-| GET | `/api/conversations/:projectId` |
+| Method | Endpoint                        |
+| ------ | ------------------------------- |
+| POST   | `/api/conversations/message`    |
+| POST   | `/api/conversations/stream`     |
+| GET    | `/api/conversations/:projectId` |
 
 ---
 

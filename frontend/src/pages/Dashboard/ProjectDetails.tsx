@@ -125,35 +125,20 @@ const ProjectDetails = () => {
 
   return (
     <DashboardLayout>
-      <div className="rounded-xl bg-white p-8 shadow-sm">
-        <h1 className="text-3xl font-bold">{project.title}</h1>
+      <WorkspaceHeader
+        project={project}
+        deleting={deleting}
+        onEdit={() => setIsEditOpen(true)}
+        onDelete={handleDelete}
+      />
 
-        <p className="mt-4 text-gray-600">{project.description}</p>
+      <div className="mt-6 flex gap-6">
+        <WorkspaceSidebar />
 
-        <div className="mt-8 flex gap-3">
-          <button
-            onClick={() => setIsEditOpen(true)}
-            className="rounded-lg bg-cyan-500 px-5 py-2 text-white hover:bg-cyan-600"
-          >
-            Edit
-          </button>
-
-          <button
-            onClick={handleDelete}
-            disabled={deleting}
-            className="rounded-lg bg-red-500 px-5 py-2 text-white hover:bg-red-600 disabled:opacity-50"
-          >
-            {deleting ? "Deleting..." : "Delete"}
-          </button>
-        </div>
-
-        <div className="mt-8 border-t pt-4 text-sm text-gray-500">
-          Created: {new Date(project.createdAt).toLocaleString()}
+        <div className="flex-1">
+          <ChatPanel projectId={project.id} />
         </div>
       </div>
-
-      {/* 👇 Add ChatPanel here */}
-      <ChatPanel projectId={project.id} />
 
       <ProjectModal
         isOpen={isEditOpen}
