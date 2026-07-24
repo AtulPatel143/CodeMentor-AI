@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  FolderKanban,
-  CheckCircle,
-  Clock3,
-  TrendingUp,
-} from "lucide-react";
+import { FolderKanban, CheckCircle, Clock3, TrendingUp } from "lucide-react";
 
 import DashboardLayout from "./DashboardLayout";
 import StatsCard from "./StatsCard";
@@ -59,11 +54,11 @@ const DashboardPage = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
         Welcome to CodeMentor AI 🚀
       </h1>
 
-      <p className="mt-2 text-gray-600">
+      <p className="mt-2 text-slate-600 dark:text-slate-400">
         Your dashboard is ready.
       </p>
 
@@ -96,26 +91,26 @@ const DashboardPage = () => {
 
       {/* Recent Projects */}
       <div className="mt-10">
-        <h2 className="text-2xl font-semibold mb-4">
+        <h2 className="mb-4 text-2xl font-semibold text-slate-900 dark:text-white">
           Recent Projects
         </h2>
 
         {recentProjects.length === 0 ? (
-          <p className="text-gray-500">
-            No recent projects found.
-          </p>
+          <h2 className="mb-4 text-2xl font-semibold text-slate-900 dark:text-white">
+            Recent Projects
+          </h2>
         ) : (
           <div className="grid gap-4">
             {recentProjects.map((project) => (
               <div
                 key={project.id}
-                className="rounded-lg border bg-white p-4 shadow-sm"
+                className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900"
               >
-                <h3 className="text-lg font-semibold">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                   {project.title}
                 </h3>
 
-                <p className="mt-1 text-gray-600">
+                <p className="mt-1 text-slate-600 dark:text-slate-400">
                   {project.description || "No description"}
                 </p>
               </div>

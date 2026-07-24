@@ -3,14 +3,15 @@ import ThemeToggle from "./Header/ThemeToggle";
 
 const Navbar = () => {
   return (
-    <header className="bg-white rounded-xl shadow-sm px-6 py-4 flex items-center justify-between">
+    <header className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm transition-colors duration-300 dark:border-slate-700 dark:bg-slate-900">
       {/* Search */}
-      <div className="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-lg w-80">
-        <Search size={18} className="text-gray-500" />
+      <div className="flex w-80 items-center gap-3 rounded-lg bg-slate-100 px-4 py-2 transition-colors dark:bg-slate-800">
+        <Search size={18} className="text-slate-500 dark:text-slate-400" />
+
         <input
           type="text"
           placeholder="Search projects..."
-          className="bg-transparent outline-none w-full text-sm"
+          className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
         />
       </div>
 
@@ -18,19 +19,27 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         <ThemeToggle />
 
-        <button className="relative">
-          <Bell size={22} className="text-gray-600" />
-          <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        {/* Notification */}
+        <button className="relative rounded-full p-2 transition hover:bg-slate-100 dark:hover:bg-slate-800">
+          <Bell size={22} className="text-slate-600 dark:text-slate-300" />
+
+          <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500"></span>
         </button>
 
+        {/* User */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-cyan-500 text-white flex items-center justify-center font-bold">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500 font-bold text-white">
             A
           </div>
 
           <div>
-            <p className="font-semibold">Administrator</p>
-            <p className="text-sm text-gray-500">Welcome Back 👋</p>
+            <p className="font-semibold text-slate-900 dark:text-white">
+              Administrator
+            </p>
+
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Welcome Back 👋
+            </p>
           </div>
         </div>
       </div>
