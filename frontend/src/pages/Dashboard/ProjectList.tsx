@@ -39,6 +39,22 @@ const ProjectList = () => {
     return () => window.clearTimeout(timeoutId);
   }, [fetchProjects]);
 
+  useEffect(() => {
+    if (loading) return;
+
+    const lastActiveProject = localStorage.getItem("lastActiveProject");
+
+    if (!lastActiveProject) return;
+
+    const projectExists = projects.some(
+      (project) => project.id === lastActiveProject,
+    );
+
+    if (projectExists) {
+      navigate(`/projects/${lastActiveProject}`);
+    }
+  }, [loading, projects, navigate]);
+
   return (
     <DashboardLayout>
       <div className="flex items-center justify-between mb-8">

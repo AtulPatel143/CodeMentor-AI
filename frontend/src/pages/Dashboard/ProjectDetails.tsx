@@ -6,6 +6,8 @@ import { deleteProject, getProjectById } from "../../services/project.service";
 import toast from "react-hot-toast";
 import ChatPanel from "../../components/ChatPanel";
 import axios from "axios";
+import WorkspaceHeader from "../../components/workspace/Header/WorkspaceHeader";
+import WorkspaceSidebar from "../../components/workspace/Sidebar/WorkspaceSidebar";
 
 type Project = {
   id: string;
@@ -22,6 +24,7 @@ const ProjectDetails = () => {
   const [deleting, setDeleting] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const navigate = useNavigate();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const handleDelete = async () => {
     if (!project) return;
@@ -92,6 +95,12 @@ const ProjectDetails = () => {
     void fetchProject();
   }, [id]);
 
+  useEffect(() => {
+    if (!project) return;
+
+    localStorage.setItem("lastActiveProject", project.id);
+  }, [project]);
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -132,10 +141,10 @@ const ProjectDetails = () => {
         onDelete={handleDelete}
       />
 
-      <div className="mt-6 flex gap-6">
-        <WorkspaceSidebar />
+      <div className="mt-6 flex h-[calc(100vh-170px)] gap-6">
+        <WorkspaceSidebar onNewProject={() => setIsCreateOpen(true)} />
 
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden rounded-xl bg-white shadow-sm">
           <ChatPanel projectId={project.id} />
         </div>
       </div>
@@ -145,7 +154,14 @@ const ProjectDetails = () => {
         onClose={() => setIsEditOpen(false)}
         onProjectCreated={refreshProject}
         mode="edit"
-        project={project ?? undefined}
+        project={project}
+      />
+
+      <ProjectModal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onProjectCreated={refreshProject}
+        mode="create"
       />
     </DashboardLayout>
   );

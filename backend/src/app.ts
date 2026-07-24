@@ -14,8 +14,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // Vite local
-      "https://code-mentor-ai-phi.vercel.app", // बाद में अपना Vercel URL डालना
+      "http://localhost:5173", 
+      "https://code-mentor-ai-phi.vercel.app", 
     ],
     credentials: true,
   }),
