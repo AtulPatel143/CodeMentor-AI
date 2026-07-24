@@ -1,4 +1,4 @@
-import ThemeToggle from "./ThemeToggle";
+
 
 type Project = {
   id: string;
