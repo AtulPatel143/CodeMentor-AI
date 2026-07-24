@@ -1,4 +1,4 @@
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar.tsx";
 import Navbar from "../../components/workspace/Navbar";
 
 interface DashboardLayoutProps {
