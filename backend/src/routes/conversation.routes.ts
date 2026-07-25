@@ -1,19 +1,26 @@
 import { Router } from "express";
+
 import {
+  createConversation,
+  deleteConversation,
   getConversations,
-  sendMessage,
-  streamMessage,
+  renameConversation,
 } from "../controllers/conversation.controller";
+
 import { verifyToken } from "../middleware/auth.middleware";
 
 const router = Router();
 
-// GET conversation history
 router.get("/projects/:projectId/conversations", verifyToken, getConversations);
 
-// Send a message
-router.post("/projects/:projectId/chat", verifyToken, sendMessage);
+router.post(
+  "/projects/:projectId/conversations",
+  verifyToken,
+  createConversation,
+);
 
-router.post("/projects/:projectId/chat/stream", verifyToken, streamMessage);
+router.patch("/conversations/:id", verifyToken, renameConversation);
+
+router.delete("/conversations/:id", verifyToken, deleteConversation);
 
 export default router;

@@ -1,169 +1,53 @@
 import { Request, Response } from "express";
-import prisma from "../prisma/prisma";
 
 import { ConversationService } from "../services/conversation.service";
+import { asyncHandler } from "../middleware/asyncHandler";
+import { AppError } from "../errors/AppError";
 
 const conversationService = new ConversationService();
 
-interface SendMessageBody {
-  message: string;
-}
+export const createConversation = asyncHandler(
+  async (req: Request, res: Response) => {
+    const projectId = Array.isArray(req.params.projectId)
+      ? req.params.projectId[0]
+      : req.params.projectId;
 
-// GET /api/projects/:projectId/conversations
-export const getConversations = async (
-  req: Request,
-  res: Response,
-): Promise<void> => {
-  try {
-    let projectId = req.params.projectId;
-
-    if (Array.isArray(projectId)) {
-      projectId = projectId[0];
-    }
-
-    if (!projectId) {
-      res.status(400).json({
-        success: false,
-        message: "Project ID is required",
-      });
-      return;
-    }
-
-    const conversations = await prisma.conversation.findMany({
-      where: {
-        projectId,
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
-
-    res.status(200).json({
-      success: true,
-      conversations,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch conversations",
-    });
-  }
-};
-
-// POST /api/projects/:projectId/chat
-export const sendMessage = async (
-  req: Request,
-  res: Response,
-): Promise<void> => {
-  try {
-    let projectId = req.params.projectId;
-    const { message } = req.body as SendMessageBody;
-
-    if (Array.isArray(projectId)) {
-      projectId = projectId[0];
-    }
-
-    if (!projectId) {
-      res.status(400).json({
-        success: false,
-        message: "Project ID is required",
-      });
-      return;
-    }
-
-    if (!message.trim()) {
-      res.status(400).json({
-        success: false,
-        message: "Message is required",
-      });
-      return;
-    }
-
-    const aiResponse = await conversationService.generateResponse(
-      projectId,
-      message,
-    );
-
-    const conversation = await prisma.conversation.create({
-      data: {
-        projectId,
-        message,
-        response: aiResponse,
-      },
-    });
+    const conversation = await conversationService.create(projectId);
 
     res.status(201).json({
       success: true,
-      conversation,
+      data: conversation,
     });
-  } catch (error) {
-    console.error(error);
+  },
+);
 
-    res.status(500).json({
-      success: false,
-      message: "Failed to send message",
-    });
-  }
-};
+export const renameConversation = asyncHandler(
+  async (req: Request, res: Response) => {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const { title } = req.body;
 
-export const streamMessage = async (
-  req: Request,
-  res: Response,
-): Promise<void> => {
-  try {
-    let projectId = req.params.projectId;
-    const { message } = req.body as SendMessageBody;
-
-    if (Array.isArray(projectId)) {
-      projectId = projectId[0];
+    if (!title?.trim()) {
+      throw new AppError("Title is required.", 400);
     }
 
-    if (!projectId || !message.trim()) {
-      res.status(400).json({
-        success: false,
-        message: "Invalid request",
-      });
-      return;
-    }
+    const conversation = await conversationService.rename(id, title);
 
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-
-    res.flushHeaders();
-
-    let fullResponse = "";
-
-    for await (const chunk of conversationService.generateStreamResponse(
-      projectId,
-      message,
-    )) {
-      fullResponse += chunk;
-
-      res.write(`data: ${JSON.stringify({ chunk })}\n\n`);
-      await new Promise((resolve) => setImmediate(resolve));
-    }
-
-    await prisma.conversation.create({
-      data: {
-        projectId,
-        message,
-        response: fullResponse,
-      },
+    res.json({
+      success: true,
+      data: conversation,
     });
+  },
+);
 
-    res.write("event: end\n");
-    res.write("data: done\n\n");
+export const deleteConversation = asyncHandler(
+  async (req: Request, res: Response) => {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 
-    res.end();
-  } catch (error) {
-    console.error(error);
+    await conversationService.delete(id);
 
-    res.write("event: error\n");
-    res.write('data: {"message":"Streaming failed"}\n\n');
-
-    res.end();
-  }
-};
+    res.status(200).json({
+      success: true,
+      data: null,
+    });
+  },
+);

@@ -1,43 +1,60 @@
-import { Bot, Copy, User } from "lucide-react";
+import { Bot, User } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-interface ChatMessageProps {
-  role: "user" | "assistant";
-  content: string;
+import CodeBlock from "./CodeBlock";
+import type { Message } from "../../../types/message";
+
+interface Props {
+  message: Message;
 }
 
-const ChatMessage = ({ role, content }: ChatMessageProps) => {
-  const isUser = role === "user";
+const ChatMessage = ({ message }: Props) => {
+  const isUser = message.role === "user";
 
   return (
-    <div className={`flex gap-4 ${isUser ? "justify-end" : "justify-start"}`}>
-      {!isUser && (
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10">
-          <Bot size={20} className="text-cyan-400" />
-        </div>
-      )}
-
-      <div
-        className={`max-w-3xl rounded-2xl border px-5 py-4 ${
-          isUser
-            ? "border-cyan-500 bg-cyan-500 text-slate-950"
-            : "border-slate-800 bg-slate-900 text-slate-100"
-        }`}
-      >
-        <p className="whitespace-pre-wrap leading-7">{content}</p>
-
-        {!isUser && (
-          <button className="mt-4 flex items-center gap-2 text-xs text-slate-400 transition hover:text-white">
-            <Copy size={14} />
-            Copy
-          </button>
+    <div className="flex gap-4">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800">
+        {isUser ? (
+          <User size={18} className="text-white" />
+        ) : (
+          <Bot size={18} className="text-cyan-400" />
         )}
       </div>
 
-      {isUser && (
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500">
-          <User size={20} className="text-slate-950" />
+      <div className="flex-1">
+        <div className="mb-2 font-semibold text-white">
+          {isUser ? "You" : "CodeMentor AI"}
         </div>
-      )}
+
+        <div className="rounded-2xl bg-slate-900 p-4 text-slate-200">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              code({ className, children }) {
+                const match = /language-(\w+)/.exec(className || "");
+
+                if (!match) {
+                  return (
+                    <code className="rounded bg-slate-800 px-1 py-0.5">
+                      {children}
+                    </code>
+                  );
+                }
+
+                return (
+                  <CodeBlock
+                    language={match[1]}
+                    value={String(children).replace(/\n$/, "")}
+                  />
+                );
+              },
+            }}
+          >
+            {message.content}
+          </ReactMarkdown>
+        </div>
+      </div>
     </div>
   );
 };

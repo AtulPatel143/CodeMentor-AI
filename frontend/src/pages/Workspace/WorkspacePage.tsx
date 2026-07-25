@@ -1,24 +1,23 @@
-import WorkspaceLayout from "../../components/workspace/Layout/WorkspaceLayout";
-import WorkspaceSidebar from "../../components/workspace/Sidebar/WorkspaceSidebar";
-import WorkspaceHeader from "../../components/workspace/Layout/WorkspaceHeader";
-
+import ChatInput from "../../components/workspace/Chat/ChatInput";
 import ChatView from "../../components/workspace/Chat/ChatView";
-
-import { WorkspaceProvider } from "../../components/workspace/context/WorkspaceContext";
+import WelcomeScreen from "../../components/workspace/WelcomeScreen";
+import { useConversation } from "../../components/workspace/context/useConversation";
+import { useMessage } from "../../components/workspace/context/useMessage";
 
 const WorkspacePage = () => {
+  const { activeConversation } = useConversation();
+  const { messages } = useMessage();
+
+  const showChat = activeConversation !== null || messages.length > 0;
+
   return (
-    <WorkspaceProvider>
-      <WorkspaceLayout>
-        <WorkspaceSidebar />
+    <div className="flex h-full flex-col">
+      <main className="flex-1 overflow-y-auto">
+        {showChat ? <ChatView /> : <WelcomeScreen />}
+      </main>
 
-        <main className="flex flex-1 flex-col overflow-hidden bg-slate-950">
-          <WorkspaceHeader />
-
-          <ChatView />
-        </main>
-      </WorkspaceLayout>
-    </WorkspaceProvider>
+      <ChatInput />
+    </div>
   );
 };
 

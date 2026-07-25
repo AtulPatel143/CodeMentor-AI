@@ -1,32 +1,63 @@
-import ChatHistory from "./ChatHistory";
-import ChatInput from "./ChatInput";
-import ConversationList from "./ConversationList";
-import EmptyWorkspaceHero from "../Hero/EmptyWorkspaceHero";
+import { useEffect, useRef } from "react";
 
-import { useWorkspace } from "../context/useWorkspace";
-import { ConversationProvider } from "../context/ConversationContext";
+import ChatMessage from "./ChatMessage";
+import { useMessage } from "../context/useMessage";
 
 const ChatView = () => {
-  const { activeProject } = useWorkspace();
+  const { messages, loading, streaming } = useMessage();
 
-  if (!activeProject) {
-    return <EmptyWorkspaceHero />;
-  }
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      150;
+
+    if (isNearBottom || streaming) {
+      bottomRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [messages, loading, streaming]);
 
   return (
-    <ConversationProvider projectId={activeProject.id}>
-      <div className="flex h-full flex-1 bg-slate-950">
-        <ConversationList />
-
-        <div className="flex flex-1 flex-col">
-          <div className="flex-1 overflow-y-auto">
-            <ChatHistory />
-          </div>
-
-          <ChatInput />
+    <div
+      ref={containerRef}
+      className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 overflow-y-auto px-6 py-8"
+    >
+      {messages.length === 0 ? (
+        <div className="mt-20 text-center text-slate-500">
+          Start a conversation by sending a message.
         </div>
-      </div>
-    </ConversationProvider>
+      ) : (
+        messages.map((message) => (
+          <ChatMessage key={message.id} message={message} />
+        ))
+      )}
+
+      {loading && (
+        <div className="flex items-center gap-2 text-sm text-slate-400">
+          <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" />
+          <div
+            className="h-2 w-2 animate-bounce rounded-full bg-blue-500"
+            style={{ animationDelay: "0.15s" }}
+          />
+          <div
+            className="h-2 w-2 animate-bounce rounded-full bg-blue-500"
+            style={{ animationDelay: "0.3s" }}
+          />
+
+          <span className="ml-2">CodeMentor AI is thinking...</span>
+        </div>
+      )}
+
+      <div ref={bottomRef} />
+    </div>
   );
 };
 

@@ -19,7 +19,17 @@ interface ConversationContextType {
   conversations: Conversation[];
   activeConversation: Conversation | null;
   loading: boolean;
+
   setActiveConversation: (conversation: Conversation | null) => void;
+
+  createConversation: () => Conversation;
+
+  renameConversation: (id: string, title: string) => void;
+
+  deleteConversation: (id: string) => void;
+
+  updateConversation: (id: string, updates: Partial<Conversation>) => void;
+
   refreshConversations: (projectId: string) => Promise<void>;
 }
 
@@ -33,10 +43,75 @@ interface Props {
 
 export const ConversationProvider = ({ projectId, children }: Props) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
+
   const [activeConversation, setActiveConversation] =
     useState<Conversation | null>(null);
 
   const [loading, setLoading] = useState(false);
+
+  const createConversation = () => {
+    const now = new Date().toISOString();
+
+    const conversation: Conversation = {
+      id: crypto.randomUUID(),
+      title: "New Chat",
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    setConversations((prev) => [conversation, ...prev]);
+
+    setActiveConversation(conversation);
+
+    return conversation;
+  };
+
+  const updateConversation = useCallback(
+    (id: string, updates: Partial<Conversation>) => {
+      setConversations((prev) =>
+        prev.map((conversation) =>
+          conversation.id === id
+            ? {
+                ...conversation,
+                ...updates,
+              }
+            : conversation,
+        ),
+      );
+
+      setActiveConversation((prev) =>
+        prev && prev.id === id
+          ? {
+              ...prev,
+              ...updates,
+            }
+          : prev,
+      );
+    },
+    [],
+  );
+
+  const renameConversation = useCallback(
+    (id: string, title: string) => {
+      const trimmedTitle = title.trim();
+
+      if (!trimmedTitle) return;
+
+      updateConversation(id, {
+        title: trimmedTitle,
+        updatedAt: new Date().toISOString(),
+      });
+    },
+    [updateConversation],
+  );
+
+  const deleteConversation = useCallback((id: string) => {
+    setConversations((prev) =>
+      prev.filter((conversation) => conversation.id !== id),
+    );
+
+    setActiveConversation((prev) => (prev?.id === id ? null : prev));
+  }, []);
 
   const refreshConversations = useCallback(async (id: string) => {
     if (!id) return;
@@ -45,17 +120,14 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
 
     try {
       // TODO:
-      // const data = await getProjectConversations(id);
+      // const data =
+      //   await getProjectConversations(id);
 
       const data: Conversation[] = [];
 
       setConversations(data);
 
-      if (data.length > 0) {
-        setActiveConversation(data[0]);
-      } else {
-        setActiveConversation(null);
-      }
+      setActiveConversation(data.length > 0 ? data[0] : null);
     } finally {
       setLoading(false);
     }
@@ -64,9 +136,7 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
   useEffect(() => {
     if (!projectId) return;
 
-    void Promise.resolve().then(() => {
-      void refreshConversations(projectId);
-    });
+    void refreshConversations(projectId);
   }, [projectId, refreshConversations]);
 
   return (
@@ -76,6 +146,10 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
         activeConversation,
         loading,
         setActiveConversation,
+        createConversation,
+        renameConversation,
+        deleteConversation,
+        updateConversation,
         refreshConversations,
       }}
     >

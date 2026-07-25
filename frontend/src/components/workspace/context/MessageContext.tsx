@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useCallback, useState } from "react";
 
-import { getMessages, streamMessage } from "../api/message.api";
+import { getMessages, streamMessage, stopStreaming } from "../api/message.api";
 
 import { Message } from "../types/message";
 
@@ -12,6 +12,8 @@ interface MessageContextType {
   loadMessages(conversationId: string): Promise<void>;
 
   sendMessage(conversationId: string, content: string): Promise<void>;
+
+  stopGenerating(): void;
 
   clearMessages(): void;
 
@@ -61,9 +63,9 @@ export function MessageProvider({ children }: { children: ReactNode }) {
 
       setMessages((prev) => [...prev, userMessage, assistantMessage]);
 
-      try {
-        setStreaming(true);
+      setStreaming(true);
 
+      try {
         await streamMessage(conversationId, content, (chunk) => {
           setMessages((prev) =>
             prev.map((message) =>
@@ -77,6 +79,10 @@ export function MessageProvider({ children }: { children: ReactNode }) {
           );
         });
       } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
         setMessages((prev) =>
           prev.map((message) =>
             message.id === assistantId
@@ -96,6 +102,11 @@ export function MessageProvider({ children }: { children: ReactNode }) {
     [streaming],
   );
 
+  const stopGenerating = useCallback(() => {
+    stopStreaming();
+    setStreaming(false);
+  }, []);
+
   const clearMessages = useCallback(() => {
     setMessages([]);
   }, []);
@@ -108,6 +119,7 @@ export function MessageProvider({ children }: { children: ReactNode }) {
         streaming,
         loadMessages,
         sendMessage,
+        stopGenerating,
         clearMessages,
         setMessages,
       }}

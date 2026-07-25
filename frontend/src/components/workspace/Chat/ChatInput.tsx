@@ -1,52 +1,74 @@
 import { useState } from "react";
-import { Mic, Paperclip, SendHorizontal } from "lucide-react";
+import { Send, Square } from "lucide-react";
 
-const ChatInput = () => {
-  const [message, setMessage] = useState("");
+import { useConversation } from "../../hooks/useConversation";
+import { useMessage } from "../../hooks/useMessage";
 
-  const handleSend = () => {
-    if (!message.trim()) return;
+export default function ChatInput() {
+  const [content, setContent] = useState("");
 
-    console.log(message);
+  const { activeConversation } = useConversation();
 
-    setMessage("");
+  const { sendMessage, stopGenerating, streaming } = useMessage();
+
+  const handleSend = async () => {
+    if (!activeConversation) return;
+    if (!content.trim()) return;
+    if (streaming) return;
+
+    const message = content;
+
+    setContent("");
+
+    try {
+      await sendMessage(activeConversation.id, message);
+    } catch (error) {
+      console.error(error);
+      setContent(message);
+    }
   };
 
   return (
-    <div className="border-t border-slate-800 bg-slate-950 p-6">
-      <div className="mx-auto flex max-w-4xl items-end gap-3 rounded-2xl border border-slate-800 bg-slate-900 p-3">
-        <button className="rounded-xl p-3 text-slate-400 transition hover:bg-slate-800 hover:text-white">
-          <Paperclip size={20} />
-        </button>
-
+    <div className="border-t border-slate-800 bg-[#0B1120] p-4">
+      <div className="mx-auto flex max-w-4xl items-end gap-3 rounded-2xl border border-slate-700 bg-slate-900 p-3">
         <textarea
           rows={1}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Ask CodeMentor AI anything..."
-          className="max-h-48 flex-1 resize-none bg-transparent py-2 text-white placeholder:text-slate-500 outline-none"
+          value={content}
+          disabled={streaming}
+          placeholder={
+            streaming
+              ? "CodeMentor AI is responding..."
+              : "Ask CodeMentor AI..."
+          }
+          onChange={(e) => setContent(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               handleSend();
             }
           }}
+          className="max-h-40 flex-1 resize-none bg-transparent outline-none"
         />
 
-        <button className="rounded-xl p-3 text-slate-400 transition hover:bg-slate-800 hover:text-white">
-          <Mic size={20} />
-        </button>
-
-        <button
-          onClick={handleSend}
-          disabled={!message.trim()}
-          className="rounded-xl bg-cyan-500 p-3 text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <SendHorizontal size={20} />
-        </button>
+        {streaming ? (
+          <button
+            onClick={stopGenerating}
+            className="rounded-xl bg-red-600 p-3 text-white transition hover:bg-red-700"
+            aria-label="Stop generating"
+          >
+            <Square size={18} fill="currentColor" />
+          </button>
+        ) : (
+          <button
+            onClick={handleSend}
+            disabled={!content.trim()}
+            className="rounded-xl bg-blue-600 p-3 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label="Send message"
+          >
+            <Send size={18} />
+          </button>
+        )}
       </div>
     </div>
   );
-};
-
-export default ChatInput;
+}
