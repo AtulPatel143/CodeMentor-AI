@@ -45,14 +45,14 @@ export const sendMessage = async (projectId: string, message: string) => {
 };
 
 export const sendStreamMessage = async (
-  projectId: string,
+  conversationId: string,
   message: string,
   onChunk: (chunk: string) => void,
 ) => {
   const token = localStorage.getItem("token");
 
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/projects/${projectId}/chat/stream`,
+    `${import.meta.env.VITE_API_URL}/api/conversations/${conversationId}/messages/stream`,
     {
       method: "POST",
       headers: {

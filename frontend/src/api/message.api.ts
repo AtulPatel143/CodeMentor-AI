@@ -3,7 +3,9 @@ import axios from "./client";
 let controller: AbortController | null = null;
 
 export async function getMessages(conversationId: string) {
-  const { data } = await axios.get(`/conversations/${conversationId}/messages`);
+  const { data } = await axios.get(
+    `/api/conversations/${conversationId}/messages`,
+  );
 
   return data.data;
 }
@@ -16,9 +18,20 @@ export async function streamMessage(
   controller = new AbortController();
 
   const token = localStorage.getItem("token");
+ 
+  const rawApiUrl = (import.meta.env.VITE_API_URL as string) || "";
+
+  const trimmed = rawApiUrl.replace(/\/+$/u, "");
+
+  const apiBase =
+    trimmed === ""
+      ? "/api"
+      : trimmed.endsWith("/api")
+      ? trimmed
+      : `${trimmed}/api`;
 
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/conversations/${conversationId}/messages/stream`,
+    `${apiBase}/conversations/${conversationId}/messages/stream`,
     {
       method: "POST",
       headers: {
@@ -27,7 +40,9 @@ export async function streamMessage(
           Authorization: `Bearer ${token}`,
         }),
       },
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({
+        content,
+      }),
       signal: controller.signal,
     },
   );
@@ -49,7 +64,9 @@ export async function streamMessage(
     while (true) {
       const { done, value } = await reader.read();
 
-      if (done) break;
+      if (done) {
+        break;
+      }
 
       buffer += decoder.decode(value, {
         stream: true,
