@@ -42,29 +42,27 @@ export const WorkspaceProvider = ({ children }: WorkspaceProviderProps) => {
 
       setProjects(response.projects);
 
-      if (response.projects.length === 0) {
-        setActiveProject(null);
-        return;
-      }
-
-      // Preserve the current selection if it still exists
-      if (activeProject) {
-        const existing = response.projects.find(
-          (project) => project.id === activeProject.id,
-        );
-
-        if (existing) {
-          setActiveProject(existing);
-          return;
+      setActiveProject((current) => {
+        if (response.projects.length === 0) {
+          return null;
         }
-      }
 
-      // Otherwise select the newest project
-      setActiveProject(response.projects[response.projects.length - 1]);
+        if (current) {
+          const existing = response.projects.find(
+            (project) => project.id === current.id,
+          );
+
+          if (existing) {
+            return existing;
+          }
+        }
+
+        return response.projects[response.projects.length - 1];
+      });
     } catch (error) {
       console.error("Failed to refresh projects:", error);
     }
-  }, [activeProject]);
+  }, []);
 
   useEffect(() => {
     const initialize = async () => {
