@@ -1,4 +1,4 @@
-import api from "../api/axios";
+import api from "./client";
 
 export interface ApiProject {
   id: string;

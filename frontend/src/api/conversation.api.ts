@@ -1,5 +1,5 @@
 import client from "./client";
-import { Conversation } from "../types/conversation";
+import type { Conversation } from "../types/conversation";
 
 export const getConversations = async (
   projectId: string,

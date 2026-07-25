@@ -1,4 +1,4 @@
-import api from "../api/axios";
+import api from "./client";
 
 import type { LoginFormData } from "../schemas/login.schema";
 import type { SignupFormData } from "../schemas/signup.schema";

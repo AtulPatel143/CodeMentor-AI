@@ -1,5 +1,4 @@
-import api from "./axios";
-
+import api from "./client";
 
 export interface Conversation {
   id: string;
