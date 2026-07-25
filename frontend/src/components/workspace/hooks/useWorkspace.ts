@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getProjects,
   type ApiProject,
-} from "../../../services/project.service";
+} from "@/api/project.service";
 
 export const useWorkspace = () => {
   const [projects, setProjects] = useState<ApiProject[]>([]);

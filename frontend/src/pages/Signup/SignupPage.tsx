@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, type SignupFormData } from "../../schemas/signup.schema";
 
 import axios from "axios";
-import { signupUser } from "../../services/auth.service";
+import { signupUser } from "@/api/auth.service";
 
 function SignupPage() {
   const navigate = useNavigate();
