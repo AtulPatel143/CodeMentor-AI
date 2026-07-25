@@ -52,7 +52,7 @@ export const sendStreamMessage = async (
   const token = localStorage.getItem("token");
 
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/projects/${projectId}/chat/stream`,
+    `${import.meta.env.VITE_API_URL}/projects/${projectId}/chat/stream`,
     {
       method: "POST",
       headers: {
