@@ -2,15 +2,18 @@ import { asyncHandler } from "../middleware/asyncHandler";
 import { AppError } from "../errors/AppError";
 import { MessageService } from "../services/message.service";
 import { initSSE, writeSSE, endSSE } from "../utils/sse";
+import type { Request, Response } from "express";
 const messageService = new MessageService();
 
 /**
  * GET /api/conversations/:conversationId/messages
  */
 export const getMessages = asyncHandler(async (req, res) => {
-  const { conversationId } = req.params;
+  const conversationId = Array.isArray(req.params.conversationId)
+    ? req.params.conversationId[0]
+    : req.params.conversationId;
 
-  const messages = await messageService.getMessages(conversationId);
+  const messages = await messageService.getMessages(conversationId as string);
 
   res.status(200).json({
     success: true,
@@ -22,7 +25,9 @@ export const getMessages = asyncHandler(async (req, res) => {
  * POST /api/conversations/:conversationId/messages
  */
 export const sendMessage = asyncHandler(async (req, res) => {
-  const { conversationId } = req.params;
+  const conversationId = Array.isArray(req.params.conversationId)
+    ? req.params.conversationId[0]
+    : req.params.conversationId;
   const { content } = req.body;
 
   if (!content?.trim()) {
@@ -40,9 +45,11 @@ export const sendMessage = asyncHandler(async (req, res) => {
 /**
  * POST /api/conversations/:conversationId/messages/stream
  */
-export const streamMessage = async (req, res): Promise<void> => {
+export const streamMessage = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { conversationId } = req.params;
+    const conversationId = Array.isArray(req.params.conversationId)
+      ? req.params.conversationId[0]
+      : req.params.conversationId;
     const { content } = req.body;
 
     if (!content?.trim()) {
@@ -54,7 +61,7 @@ export const streamMessage = async (req, res): Promise<void> => {
     writeSSE(res, "start", {});
 
     for await (const chunk of messageService.streamMessage(
-      conversationId,
+      conversationId as string,
       content,
     )) {
       writeSSE(res, "token", { chunk });

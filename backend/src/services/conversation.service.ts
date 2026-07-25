@@ -1,5 +1,5 @@
 import prisma from "../prisma/prisma";
-import { AIService } from "../ai.service";
+import { AIService } from "./ai/ai.service";
 import { AppError } from "../errors/AppError";
 
 const aiService = new AIService();

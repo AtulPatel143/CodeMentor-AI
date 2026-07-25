@@ -1,6 +1,6 @@
 import prisma from "../prisma/prisma";
 import { AppError } from "../errors/AppError";
-import { AIService } from "../../ai.service";
+import { AIService } from "./ai/ai.service";
 import { ConversationService } from "./conversation.service";
 
 const aiService = new AIService();

@@ -6,6 +6,19 @@ import { AppError } from "../errors/AppError";
 
 const conversationService = new ConversationService();
 
+export const getConversations = asyncHandler(async (req: Request, res: Response) => {
+  const projectId = Array.isArray(req.params.projectId)
+    ? req.params.projectId[0]
+    : req.params.projectId;
+
+  const conversations = await conversationService.getAll(projectId as string);
+
+  res.status(200).json({
+    success: true,
+    data: conversations,
+  });
+});
+
 export const createConversation = asyncHandler(
   async (req: Request, res: Response) => {
     const projectId = Array.isArray(req.params.projectId)

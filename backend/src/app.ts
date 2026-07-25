@@ -39,8 +39,5 @@ app.get("/test", (_req, res) => {
     message: "Latest deployment is running!",
   });
 });
-app.use("/api", authRoutes);
-app.use("/api", projectRoutes);
-app.use("/api", conversationRoutes);
-app.use("/api", messageRoutes);
+
 export default app;
