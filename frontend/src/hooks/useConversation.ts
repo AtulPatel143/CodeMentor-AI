@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ConversationContext } from "../context/ConversationContextImpl";
+import { ConversationContext } from "../components/workspace/context/ConversationContext";
 
 export const useConversation = () => {
   const context = useContext(ConversationContext);
