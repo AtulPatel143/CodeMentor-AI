@@ -11,7 +11,7 @@ import {
 import {
   getProjects,
   type ApiProject,
-} from "../../../services/project.service";
+} from "@/api/project.service";
 
 interface WorkspaceContextValue {
   projects: ApiProject[];

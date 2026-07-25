@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 
-import { createProject } from "../../../services/project.service";
+import { createProject } from "@/api/project.service";
 import { useWorkspace } from "../context/useWorkspace";
 
 interface CreateProjectModalProps {
