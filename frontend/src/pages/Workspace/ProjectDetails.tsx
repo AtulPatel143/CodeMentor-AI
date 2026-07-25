@@ -6,7 +6,7 @@ import { deleteProject, getProjectById } from "../../services/project.service";
 import toast from "react-hot-toast";
 import ChatPanel from "../../components/ChatPanel";
 import axios from "axios";
-import WorkspaceHeader from "../../components/workspace/Header/WorkspaceHeader";
+import WorkspaceHeader from "../../components/workspace/Layout/WorkspaceHeader";
 import WorkspaceSidebar from "../../components/workspace/Sidebar/WorkspaceSidebar";
 
 type Project = {

@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ProjectList from "./pages/Dashboard/ProjectList";
+
 import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/home-page";
 import LoginPage from "./pages/Login/LoginPage";
 import SignupPage from "./pages/Signup/SignupPage";
-import DashboardPage from "./pages/Dashboard/DashboardPage";
+import WorkspacePage from "./pages/Workspace/WorkspacePage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
-import ProjectDetails from "./pages/Dashboard/ProjectDetails.tsx";
+
 
 function App() {
   return (
@@ -22,27 +22,10 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
 
         <Route
-          path="/dashboard"
+          path="/workspace"
           element={
             <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/projects"
-          element={
-            <ProtectedRoute>
-              <ProjectList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/projects/:id"
-          element={
-            <ProtectedRoute>
-              <ProjectDetails />
+              <WorkspacePage />
             </ProtectedRoute>
           }
         />

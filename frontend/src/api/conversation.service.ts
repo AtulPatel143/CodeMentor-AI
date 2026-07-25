@@ -1,4 +1,35 @@
-import api from "../api/axios";
+import api from "./axios";
+
+
+export interface Conversation {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const getProjectConversations = async (
+  projectId: string,
+): Promise<Conversation[]> => {
+  const response = await api.get(`/projects/${projectId}/conversations`);
+
+  return response.data.data;
+};
+
+export const createConversation = async (
+  projectId: string,
+  title: string,
+): Promise<Conversation> => {
+  const response = await api.post(`/projects/${projectId}/conversations`, {
+    title,
+  });
+
+  return response.data.data;
+};
+
+export const deleteConversation = async (conversationId: string) => {
+  await api.delete(`/conversations/${conversationId}`);
+};
 
 export const getConversations = async (projectId: string) => {
   const response = await api.get(`/projects/${projectId}/conversations`);

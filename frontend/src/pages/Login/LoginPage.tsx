@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../hooks/useAuth";
 import { loginSchema, type LoginFormData } from "../../schemas/login.schema";
-import { loginUser } from "../../services/auth.service";
+import { loginUser } from "../../api/auth.service";
 import axios from "axios";
 
 function LoginPage() {
@@ -27,7 +27,7 @@ function LoginPage() {
 
       login(response.token, response.user);
 
-      navigate("/dashboard");
+      navigate("/Workspace");
     } catch (error) {
       console.log("Login Error:", error);
 
