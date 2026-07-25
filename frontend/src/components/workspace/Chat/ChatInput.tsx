@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Send, Square } from "lucide-react";
 
-import { useConversation } from "../../hooks/useConversation";
-import { useMessage } from "../../hooks/useMessage";
+import { useConversation } from "../context/useConversation";
+import { useMessage } from "../context/useMessage";
 
 export default function ChatInput() {
   const [content, setContent] = useState("");

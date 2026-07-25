@@ -1,10 +1,5 @@
-import {
-  createContext,
-  useCallback,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { useCallback, useState } from "react";
+import type { ReactNode } from "react";
 
 import {
   getConversations,
@@ -13,27 +8,8 @@ import {
   deleteConversation as deleteConversationApi,
 } from "../api/conversation.api";
 
-import { Conversation } from "../types/conversation";
-
-interface ConversationContextType {
-  conversations: Conversation[];
-  activeConversation: Conversation | null;
-  loading: boolean;
-
-  loadConversations(projectId: string): Promise<void>;
-
-  createConversation(projectId: string): Promise<void>;
-
-  renameConversation(id: string, title: string): Promise<void>;
-
-  deleteConversation(id: string): Promise<void>;
-
-  setActiveConversation(conversation: Conversation | null): void;
-}
-
-export const ConversationContext = createContext<ConversationContextType>(
-  {} as ConversationContextType,
-);
+import type { Conversation } from "../types/conversation";
+import { ConversationContext } from "./ConversationContextImpl";
 
 export function ConversationProvider({ children }: { children: ReactNode }) {
   const [conversations, setConversations] = useState<Conversation[]>([]);

@@ -1,6 +1,6 @@
 import ChatInput from "../../components/workspace/Chat/ChatInput";
 import ChatView from "../../components/workspace/Chat/ChatView";
-import WelcomeScreen from "../../components/workspace/WelcomeScreen";
+import WelcomeScreen from "../../components/workspace/Hero/WelcomeScreen";
 import { useConversation } from "../../components/workspace/context/useConversation";
 import { useMessage } from "../../components/workspace/context/useMessage";
 
