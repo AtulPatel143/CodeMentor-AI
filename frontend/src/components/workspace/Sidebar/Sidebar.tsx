@@ -1,7 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import NewChatButton from "./NewChatButton";
-import ChatSearch from "./ChatSearch";
 import ChatList from "./ChatList";
 import BottomMenu from "./BottomMenu";
 
@@ -10,28 +9,18 @@ import { useConversation } from "../context/useConversation";
 const Sidebar = () => {
   const { conversations } = useConversation();
 
-  const [search, setSearch] = useState("");
-
-  const filteredConversations = useMemo(() => {
-    if (!search.trim()) return conversations;
-
-    return conversations.filter((conversation) =>
-      conversation.title.toLowerCase().includes(search.toLowerCase()),
-    );
-  }, [conversations, search]);
+  const filteredConversations = useMemo(() => conversations, [conversations]);
 
   return (
-    <aside className="flex h-full flex-col border-r border-slate-800 bg-[#0B1120]">
+    <aside className="flex h-full flex-col bg-[#111827]">
       {/* Header */}
-      <div className="space-y-4 border-b border-slate-800 p-4">
+      <div className="border-b border-slate-800/70 px-5 py-5">
         <NewChatButton />
-
-        <ChatSearch value={search} onChange={setSearch} />
       </div>
 
       {/* Chat List */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+      <div className="flex-1 overflow-y-auto px-3 py-4">
+        <h2 className="mb-4 px-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
           Chats
         </h2>
 
@@ -39,7 +28,7 @@ const Sidebar = () => {
       </div>
 
       {/* Footer */}
-      <div className="p-4">
+      <div className="border-t border-slate-800/70 px-4 py-4">
         <BottomMenu />
       </div>
     </aside>

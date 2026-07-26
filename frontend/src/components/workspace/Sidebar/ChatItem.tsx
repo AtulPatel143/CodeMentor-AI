@@ -46,13 +46,21 @@ const ChatItem = ({ conversation }: Props) => {
     <div className="group relative">
       <button
         onClick={() => setActiveConversation(conversation)}
-        className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 pr-10 text-left transition ${
+        className={`relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 pr-10 text-left transition-all duration-200 ${
           isActive
-            ? "bg-slate-800 text-white"
-            : "text-slate-400 hover:bg-slate-800 hover:text-white"
+            ? "bg-slate-800/90 text-white ring-1 ring-slate-700 shadow-sm"
+            : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
         }`}
       >
-        <MessageSquare size={18} className="shrink-0" />
+        {/* Active Accent */}
+        {isActive && (
+          <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-cyan-400" />
+        )}
+
+        <MessageSquare
+          size={17}
+          className="ml-1 shrink-0 text-slate-500 transition-colors group-hover:text-slate-300"
+        />
 
         {editing ? (
           <input
@@ -61,33 +69,33 @@ const ChatItem = ({ conversation }: Props) => {
             onChange={(e) => setDraftTitle(e.target.value)}
             onBlur={saveRename}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                saveRename();
-              }
+              if (e.key === "Enter") saveRename();
 
               if (e.key === "Escape") {
                 setEditing(false);
                 setDraftTitle("");
               }
             }}
-            className="w-full rounded bg-slate-700 px-2 py-1 text-sm text-white outline-none"
+            className="w-full rounded-lg border border-slate-600 bg-slate-700 px-2 py-1.5 text-sm text-white outline-none focus:border-cyan-500"
           />
         ) : (
-          <span className="truncate text-sm">{conversation.title}</span>
+          <span className="truncate text-[14px] font-medium tracking-tight">
+            {conversation.title}
+          </span>
         )}
       </button>
 
       {!editing && (
         <button
           onClick={() => setMenuOpen((prev) => !prev)}
-          className="absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-700 hover:text-white group-hover:flex"
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-500 opacity-0 transition-all duration-200 hover:bg-slate-700 hover:text-white group-hover:opacity-100"
         >
           <MoreHorizontal size={16} />
         </button>
       )}
 
       {menuOpen && (
-        <div className="absolute right-2 top-11 z-50 w-40 rounded-xl border border-slate-700 bg-[#111827] p-2 shadow-xl">
+        <div className="absolute right-2 top-11 z-50 w-40 overflow-hidden rounded-xl border border-slate-700 bg-[#0F172A] p-1.5 shadow-2xl">
           <button
             onClick={() => {
               setDraftTitle(conversation.title);
@@ -96,15 +104,15 @@ const ChatItem = ({ conversation }: Props) => {
             }}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-slate-700"
           >
-            <Pencil size={16} />
+            <Pencil size={15} />
             Rename
           </button>
 
           <button
             onClick={() => deleteConversation(conversation.id)}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-400 transition hover:bg-red-500/10"
+            className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-400 transition hover:bg-red-500/10"
           >
-            <Trash2 size={16} />
+            <Trash2 size={15} />
             Delete
           </button>
         </div>

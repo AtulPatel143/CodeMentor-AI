@@ -10,14 +10,14 @@ function WorkspaceLayout() {
     <WorkspaceProvider>
       <ConversationProvider>
         <MessageProvider>
-          <div className="flex h-screen overflow-hidden bg-[#0B1120]">
-            {/* Fixed Sidebar */}
-            <aside className="fixed left-0 top-0 h-screen w-80 border-r border-slate-800 bg-[#111827]">
+          <div className="flex h-screen overflow-hidden bg-[#0B1120] text-white">
+            {/* Sidebar */}
+            <aside className="w-72 shrink-0 border-r border-slate-800/70 bg-[#111827]">
               <Sidebar />
             </aside>
 
             {/* Main Content */}
-            <main className="ml-80 h-screen flex-1 overflow-y-auto">
+            <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
               <Outlet />
             </main>
           </div>

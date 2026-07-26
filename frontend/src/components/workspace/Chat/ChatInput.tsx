@@ -8,7 +8,6 @@ export default function ChatInput() {
   const [content, setContent] = useState("");
 
   const { activeConversation } = useConversation();
-
   const { sendMessage, stopGenerating, streaming } = useMessage();
 
   const handleSend = async () => {
@@ -29,45 +28,47 @@ export default function ChatInput() {
   };
 
   return (
-    <div className="border-t border-slate-800 bg-[#0B1120] p-4">
-      <div className="mx-auto flex max-w-4xl items-end gap-3 rounded-2xl border border-slate-700 bg-slate-900 p-3">
-        <textarea
-          rows={1}
-          value={content}
-          disabled={streaming}
-          placeholder={
-            streaming
-              ? "CodeMentor AI is responding..."
-              : "Ask CodeMentor AI..."
-          }
-          onChange={(e) => setContent(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
+    <div className="border-t border-slate-800/70 bg-[#0B1120] px-6 py-5">
+      <div className="mx-auto max-w-5xl">
+        <div className="flex items-end gap-3 rounded-2xl border border-slate-700/70 bg-slate-900/80 px-4 py-3 shadow-lg transition-all duration-200 focus-within:border-cyan-500/40 focus-within:shadow-cyan-500/5">
+          <textarea
+            rows={1}
+            value={content}
+            disabled={streaming}
+            placeholder={
+              streaming
+                ? "CodeMentor AI is responding..."
+                : "Message CodeMentor AI..."
             }
-          }}
-          className="max-h-40 flex-1 resize-none bg-transparent outline-none"
-        />
+            onChange={(e) => setContent(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            className="max-h-40 flex-1 resize-none bg-transparent py-2 text-[15px] text-slate-100 placeholder:text-slate-500 outline-none"
+          />
 
-        {streaming ? (
-          <button
-            onClick={stopGenerating}
-            className="rounded-xl bg-red-600 p-3 text-white transition hover:bg-red-700"
-            aria-label="Stop generating"
-          >
-            <Square size={18} fill="currentColor" />
-          </button>
-        ) : (
-          <button
-            onClick={handleSend}
-            disabled={!content.trim()}
-            className="rounded-xl bg-blue-600 p-3 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-            aria-label="Send message"
-          >
-            <Send size={18} />
-          </button>
-        )}
+          {streaming ? (
+            <button
+              onClick={stopGenerating}
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-600 text-white transition-all duration-200 hover:bg-red-700 hover:scale-105"
+              aria-label="Stop generating"
+            >
+              <Square size={18} fill="currentColor" />
+            </button>
+          ) : (
+            <button
+              onClick={handleSend}
+              disabled={!content.trim()}
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-600 text-white transition-all duration-200 hover:scale-105 hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Send message"
+            >
+              <Send size={18} />
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
