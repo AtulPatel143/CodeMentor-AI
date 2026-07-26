@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "react-hot-toast";
 
 function LogoutButton() {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ function LogoutButton() {
 
   const handleLogout = () => {
     logout(); // यह तुम्हारे AuthContext से token/user हटाएगा
+    toast("Logout successful", { duration: 3000 });
     navigate("/login"); // यूज़र को लॉगिन पेज पर ले जाए
   };
 

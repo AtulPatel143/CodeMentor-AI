@@ -82,5 +82,9 @@ router.post("/login", validate(loginSchema), loginUser);
 
 // Protected Route
 router.get("/profile", verifyToken, getProfile);
-
+// auth.routes.js में नया रूट जोड़ें
+router.post("/logout", (req, res) => {
+  // यहाँ कोई सत्र समाप्त करने वाली लॉजिक नहीं है, बस क्लाइंट साइड पर ही स्टेट क्लियर होगा
+  res.status(200).json({ message: "Logged out successfully" });
+});
 export default router;
