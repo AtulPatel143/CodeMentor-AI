@@ -12,6 +12,7 @@ const ai = new GoogleGenAI({
 });
 
 const MODEL = env.GEMINI_MODEL;
+console.log("MODEL =", MODEL);
 const GEMINI_CONFIG = {
   maxOutputTokens: env.GEMINI_MAX_OUTPUT_TOKENS,
   temperature: env.GEMINI_TEMPERATURE,
@@ -21,6 +22,7 @@ const GEMINI_CONFIG = {
 
 export class GeminiService {
   async generateResponse(prompt: string): Promise<string> {
+    console.log("Sending request with model:", MODEL);
     const response = await retryWithBackoff(
       () =>
         ai.models.generateContent({
