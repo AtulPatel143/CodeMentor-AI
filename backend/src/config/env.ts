@@ -14,3 +14,5 @@ export const env = {
   GEMINI_RETRY_ATTEMPTS: Number(process.env.GEMINI_RETRY_ATTEMPTS ?? "3"),
   GEMINI_RETRY_INITIAL_DELAY_MS: Number(process.env.GEMINI_RETRY_INITIAL_DELAY_MS ?? "500"),
 };
+
+console.log("GEMINI_MODEL =", process.env.GEMINI_MODEL)
