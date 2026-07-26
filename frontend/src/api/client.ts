@@ -2,16 +2,20 @@ import axios, { AxiosError, type AxiosInstance } from "axios";
 import toast from "react-hot-toast";
 
 // Read API URL from Vite environment
-const apiUrl = import.meta.env.VITE_API_URL;
+const rawApiUrl = (import.meta.env.VITE_API_URL as string) || "";
+const trimmedApiUrl = rawApiUrl.trim().replace(/\/+$|\s+$/g, "");
+const apiUrl = trimmedApiUrl || `${window.location.origin}/api`;
 
-if (!apiUrl) {
-  console.error(
-    "❌ VITE_API_URL is not defined. Check your frontend .env file.",
+if (!rawApiUrl) {
+  console.warn(
+    "⚠️ VITE_API_URL is not defined. Defaulting to the current origin with /api.",
   );
 }
 
+const normalizedApiUrl = apiUrl.endsWith("/api") ? apiUrl : `${apiUrl}/api`;
+
 const client: AxiosInstance = axios.create({
-  baseURL: apiUrl,
+  baseURL: normalizedApiUrl,
   headers: {
     "Content-Type": "application/json",
   },
