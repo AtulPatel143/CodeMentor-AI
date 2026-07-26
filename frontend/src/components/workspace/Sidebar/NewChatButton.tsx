@@ -9,6 +9,7 @@ const NewChatButton = () => {
   const [isCreating, setIsCreating] = useState(false);
 
   const handleNewChat = async () => {
+    console.log("New chat button clicked!");
     if (isCreating) return;
     setIsCreating(true);
     try {
