@@ -1,24 +1,24 @@
 import axios, { AxiosError, type AxiosInstance } from "axios";
-
 import toast from "react-hot-toast";
 
-// Normalize VITE_API_URL at build/runtime so callers don't need to hardcode `/api`.
-const rawApiUrl = (import.meta.env.VITE_API_URL as string) || "";
-const trimmed = rawApiUrl.replace(/\/+$/u, "");
+// Read API URL from Vite environment
+const apiUrl = import.meta.env.VITE_API_URL;
 
-const baseURL =
-  trimmed === ""
-    ? "/api"
-    : trimmed.endsWith("/api")
-      ? trimmed
-      : `${trimmed}/api`;
+if (!apiUrl) {
+  console.error(
+    "❌ VITE_API_URL is not defined. Check your frontend .env file.",
+  );
+}
 
 const client: AxiosInstance = axios.create({
-  baseURL,
+  baseURL: apiUrl,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+// Debug
+console.log("✅ API URL:", apiUrl);
 
 client.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -27,15 +27,16 @@ client.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
+  console.log(`${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+
   return config;
 });
 
-/* ---------------- Response Interceptor ---------------- */
-
 client.interceptors.response.use(
   (response) => response,
-
   (error: AxiosError) => {
+    console.error("API Error:", error.response?.status, error.response?.data);
+
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");

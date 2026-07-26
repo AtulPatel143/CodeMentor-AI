@@ -10,7 +10,7 @@ export const createProject = async (req: AuthRequest, res: Response) => {
     const userId = req.user!.id;
 
     const project = await projectService.createProject(
-      userId,
+      req.user!.id,
       title,
       description,
     );
@@ -116,17 +116,11 @@ export const updateProject = async (req: AuthRequest, res: Response) => {
 
 // Delete Project
 
-export const deleteProject = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const deleteProject = async (req: AuthRequest, res: Response) => {
   try {
     const id = req.params.id as string;
 
-    const project = await projectService.getProjectById(
-      id,
-      req.user!.id
-    );
+    const project = await projectService.getProjectById(id, req.user!.id);
 
     if (!project) {
       return res.status(404).json({
@@ -157,17 +151,13 @@ export const deleteProject = async (
   }
 };
 
-export const getRecentProjects = async (
-  req: AuthRequest,
-  res: Response,
-) => {
+export const getRecentProjects = async (req: AuthRequest, res: Response) => {
   try {
     const projects = await projectService.getRecentProjects(req.user!.id);
 
     res.status(200).json({
       success: true,
-      count: projects.length,
-      data: projects,
+      projects,
     });
   } catch (error) {
     res.status(500).json({

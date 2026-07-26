@@ -14,7 +14,11 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://code-mentor-ai-phi.vercel.app"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://code-mentor-ai-phi.vercel.app",
+    ],
     credentials: true,
   }),
 );
