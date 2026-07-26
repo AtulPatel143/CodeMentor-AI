@@ -6,7 +6,7 @@ export const env = {
   JWT_SECRET: process.env.JWT_SECRET || "development-secret",
   PORT: process.env.PORT || "5000",
   GEMINI_API_KEY: process.env.GEMINI_API_KEY || "",
-  GEMINI_MODEL: process.env.GEMINI_MODEL || "Gemini Flash Latest",
+  GEMINI_MODEL: process.env.GEMINI_MODEL || "gemini-flash-latest",
   GEMINI_MAX_OUTPUT_TOKENS: Number(process.env.GEMINI_MAX_OUTPUT_TOKENS ?? "512"),
   GEMINI_TEMPERATURE: Number(process.env.GEMINI_TEMPERATURE ?? "0.7"),
   GEMINI_TOP_P: Number(process.env.GEMINI_TOP_P ?? "0.95"),
