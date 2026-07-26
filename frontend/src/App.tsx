@@ -10,12 +10,10 @@ import WorkspacePage from "./pages/Workspace/WorkspacePage";
 import PublicRoute from "./components/auth/PublicRoute";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
-import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" />
 
       <Routes>
         {/* Public Routes */}
