@@ -1,4 +1,4 @@
-import robot from "../assets/robot.png";
+import robot from "../../../assets/robot.png";
 
 const WelcomeScreen = () => {
   return (
