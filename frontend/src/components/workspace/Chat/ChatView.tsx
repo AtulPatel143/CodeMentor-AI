@@ -10,29 +10,29 @@ const ChatView = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const container = containerRef.current;
+    if (!bottomRef.current) return;
 
-    if (!container) return;
-
-    const isNearBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight <
-      150;
-
-    if (isNearBottom || streaming) {
-      bottomRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
+    bottomRef.current.scrollIntoView({
+      behavior: streaming ? "auto" : "smooth",
+      block: "end",
+    });
   }, [messages, loading, streaming]);
 
   return (
     <div
       ref={containerRef}
-      className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 overflow-y-auto px-6 py-8"
+      className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 overflow-y-auto px-6 py-8"
     >
       {messages.length === 0 ? (
-        <div className="mt-20 text-center text-slate-500">
-          Start a conversation by sending a message.
+        <div className="mt-28 flex flex-col items-center justify-center text-center">
+          <h2 className="mb-3 text-2xl font-bold text-white">
+            Welcome to CodeMentor AI 👋
+          </h2>
+
+          <p className="max-w-lg text-slate-400">
+            Ask coding questions, generate projects, debug errors, explain
+            algorithms, or get help with any programming task.
+          </p>
         </div>
       ) : (
         messages.map((message) => (
@@ -41,15 +41,21 @@ const ChatView = () => {
       )}
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-slate-400">
-          <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" />
+        <div className="flex items-center gap-3 text-sm text-slate-400">
+          <div className="h-2 w-2 animate-bounce rounded-full bg-cyan-400" />
+
           <div
-            className="h-2 w-2 animate-bounce rounded-full bg-blue-500"
-            style={{ animationDelay: "0.15s" }}
+            className="h-2 w-2 animate-bounce rounded-full bg-cyan-400"
+            style={{
+              animationDelay: "150ms",
+            }}
           />
+
           <div
-            className="h-2 w-2 animate-bounce rounded-full bg-blue-500"
-            style={{ animationDelay: "0.3s" }}
+            className="h-2 w-2 animate-bounce rounded-full bg-cyan-400"
+            style={{
+              animationDelay: "300ms",
+            }}
           />
 
           <span className="ml-2">CodeMentor AI is thinking...</span>

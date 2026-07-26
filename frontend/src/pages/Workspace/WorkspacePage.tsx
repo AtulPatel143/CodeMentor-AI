@@ -11,12 +11,16 @@ const WorkspacePage = () => {
   const showChat = activeConversation !== null || messages.length > 0;
 
   return (
-    <div className="flex h-full flex-col">
-      <main className="flex-1 overflow-y-auto">
+    <div className="flex h-screen flex-col bg-[#0B1120]">
+      {/* Scrollable Chat Area */}
+      <div className="flex-1 overflow-y-auto">
         {showChat ? <ChatView /> : <WelcomeScreen />}
-      </main>
+      </div>
 
-      <ChatInput />
+      {/* Fixed Input */}
+      <div className="border-t border-slate-800 bg-[#0B1120]">
+        <ChatInput />
+      </div>
     </div>
   );
 };

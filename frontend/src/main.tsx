@@ -2,16 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { AuthProvider } from "./context/AuthContext";
-import { ThemeProvider } from "./context/ThemeProvider";
-
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </ThemeProvider>
+    <App />
+
+    <Toaster
+      position="top-right"
+      toastOptions={{
+        duration: 3000,
+        style: {
+          background: "#0f172a",
+          color: "#fff",
+          border: "1px solid #334155",
+        },
+      }}
+    />
   </React.StrictMode>,
 );
