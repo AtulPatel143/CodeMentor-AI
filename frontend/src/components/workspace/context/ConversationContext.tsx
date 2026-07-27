@@ -14,6 +14,7 @@ import {
   getConversations,
   renameConversation as renameConversationApi,
 } from "../../../api/conversation.api";
+import { createProject } from "@/api/project.service";
 
 import { useWorkspace } from "./useWorkspace";
 
@@ -51,7 +52,7 @@ interface Props {
 }
 
 export const ConversationProvider = ({ projectId, children }: Props) => {
-  const { activeProject } = useWorkspace();
+  const { activeProject, refreshProjects } = useWorkspace();
   const resolvedProjectId = projectId ?? activeProject?.id;
 
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -92,7 +93,22 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
 
   const createConversation = useCallback(
     async (id?: string) => {
-      const targetProjectId = id ?? resolvedProjectId;
+      let targetProjectId = id ?? resolvedProjectId;
+
+      if (!targetProjectId) {
+        const newProject = await createProject(
+          "New Chat Project",
+          "This project was created automatically so you can start a new conversation.",
+        );
+
+        if (!newProject || !newProject.id) {
+          console.error("Failed to auto-create a fallback project", newProject);
+          return null;
+        }
+
+        targetProjectId = newProject.id;
+        await refreshProjects();
+      }
 
       if (!targetProjectId) {
         return null;
@@ -105,7 +121,7 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
 
       return conversation;
     },
-    [resolvedProjectId],
+    [refreshProjects, resolvedProjectId],
   );
 
   const updateConversation = useCallback(

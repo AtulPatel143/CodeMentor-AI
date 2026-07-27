@@ -1,0 +1,187 @@
+CodeMentor-AI/
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── docker-compose.yml
+├── package.json
+├── assets/
+├── backend/
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   └── migrations/
+│   │       ├── migration_lock.toml
+│   │       ├── 20260720084047_init/
+│   │       ├── 20260720121540_add_task_model/
+│   │       ├── 20260722081410_add_conversations/
+│   │       └── 20260725183826_conversation_message_refactor/
+│   ├── src/
+│   │   ├── app.ts
+│   │   ├── server.ts
+│   │   ├── config/
+│   │   │   ├── env.ts
+│   │   │   ├── jwt.ts
+│   │   │   ├── prisma.ts
+│   │   │   ├── swagger.ts
+│   │   │   └── tailwind.config.ts
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── conversation.controller.ts
+│   │   │   ├── dashboard.controller.ts
+│   │   │   ├── message.controller.ts
+│   │   │   ├── project.controller.ts
+│   │   │   └── task.controller.ts
+│   │   ├── docs/
+│   │   │   ├── auth.yaml
+│   │   │   ├── project.yaml
+│   │   │   └── task.yaml
+│   │   ├── dto/
+│   │   │   ├── conversation.dto.ts
+│   │   │   └── message.dto.ts
+│   │   ├── errors/
+│   │   │   └── AppError.ts
+│   │   ├── middleware/
+│   │   │   ├── asyncHandler.ts
+│   │   │   ├── auth.middleware.ts
+│   │   │   ├── error.middleware.ts
+│   │   │   └── validation.middleware.ts
+│   │   ├── prisma/
+│   │   │   └── prisma.ts
+│   │   ├── project/
+│   │   │   ├── project.controller.ts
+│   │   │   ├── project.routes.ts
+│   │   │   ├── project.schema.ts
+│   │   │   └── project.service.ts
+│   │   ├── routes/
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── conversation.routes.ts
+│   │   │   ├── dashboard.routes.ts
+│   │   │   ├── message.routes.ts
+│   │   │   ├── project.routes.ts
+│   │   │   └── task.routes.ts
+│   │   ├── schemas/
+│   │   │   ├── auth.schema.ts
+│   │   │   └── project.schema.ts
+│   │   ├── services/
+│   │   │   ├── auth.service.ts
+│   │   │   ├── conversation.service.ts
+│   │   │   ├── dashboard.service.ts
+│   │   │   ├── message.service.ts
+│   │   │   ├── project.service.ts
+│   │   │   ├── task.service.ts
+│   │   │   └── ai/
+│   │   ├── types/
+│   │   │   ├── api-response.ts
+│   │   │   ├── express.d.ts
+│   │   │   └── swagger-jsdoc.d.ts
+│   │   └── utils/
+│   │       ├── AppError.ts
+│   │       ├── asyncHandler.ts
+│   │       ├── generateToken.ts
+│   │       └── ...
+├── database/
+├── docker/
+├── docs/
+│   ├── api.md
+│   ├── architecture.md
+│   ├── coding-standards.md
+│   ├── contributing.md
+│   ├── database.md
+│   ├── deployment.md
+│   ├── roadmap.md
+│   ├── setup.md
+│   └── ui-wireframes.md
+├── frontend/
+│   ├── .env
+│   ├── .gitignore
+│   ├── dist/
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── node_modules/
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── public/
+│   ├── README.md
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── auth.api.ts
+│   │   │   ├── auth.service.ts
+│   │   │   ├── client.ts
+│   │   │   ├── conversation.api.ts
+│   │   │   ├── message.api.ts
+│   │   │   ├── project.api.ts
+│   │   │   └── project.service.ts
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── auth/
+│   │   │   ├── CodeBlock.tsx
+│   │   │   ├── common/
+│   │   │   └── workspace/
+│   │   │       ├── AI/
+│   │   │       ├── Chat/
+│   │   │       ├── context/
+│   │   │       ├── Editor/
+│   │   │       ├── Hero/
+│   │   │       ├── Layout/
+│   │   │       ├── Modal/
+│   │   │       └── Sidebar/
+│   │   │           ├── BottomMenu.tsx
+│   │   │           ├── ChatItem.tsx
+│   │   │           ├── ChatList.tsx
+│   │   │           ├── ChatSearch.tsx
+│   │   │           ├── NewChatButton.tsx
+│   │   │           └── Sidebar.tsx
+│   │   ├── context/
+│   │   │   ├── AuthContext.tsx
+│   │   │   ├── AuthContextValue.ts
+│   │   │   ├── ConversationContext.tsx
+│   │   │   ├── ConversationContextImpl.ts
+│   │   │   ├── MessageContext.tsx
+│   │   │   ├── MessageContextImpl.ts
+│   │   │   ├── MessageProvider.tsx
+│   │   │   ├── ThemeContext.tsx
+│   │   │   └── ThemeProvider.tsx
+│   │   ├── hooks/
+│   │   │   ├── useAuth.ts
+│   │   │   ├── useConversation.ts
+│   │   │   ├── useMessage.ts
+│   │   │   ├── useTheme.ts
+│   │   │   └── useWorkspace.ts
+│   │   ├── index.css
+│   │   ├── layouts/
+│   │   │   ├── MainLayout.tsx
+│   │   │   └── WorkspaceLayout.tsx
+│   │   ├── main.tsx
+│   │   ├── pages/
+│   │   │   ├── ForgotPassword/
+│   │   │   ├── home-page.tsx
+│   │   │   ├── Login/
+│   │   │   ├── LogoutButton.tsx
+│   │   │   ├── Signup/
+│   │   │   └── Workspace/
+│   │   ├── schemas/
+│   │   │   ├── login.schema.ts
+│   │   │   └── signup.schema.ts
+│   │   ├── styles/
+│   │   │   └── (empty)
+│   │   ├── types/
+│   │   │   ├── conversation.ts
+│   │   │   ├── message.ts
+│   │   │   ├── react-syntax-highlighter.d.ts
+│   │   │   └── user.ts
+│   │   ├── utils/
+│   │   │   └── (empty)
+│   │   └── vite-env.d.ts
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.base.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── vercel.json
+│   └── vite.config.ts
+├── scripts/
+└── tests/
