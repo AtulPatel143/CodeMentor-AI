@@ -75,7 +75,9 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
       setActiveConversation((currentConversation) => {
         if (
           currentConversation &&
-          data.some((conversation) => conversation.id === currentConversation.id)
+          data.some(
+            (conversation) => conversation.id === currentConversation.id,
+          )
         ) {
           return currentConversation;
         }
@@ -149,45 +151,44 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
     [],
   );
 
-  const renameConversation = useCallback(
-    async (id: string, title: string) => {
-      const trimmedTitle = title.trim();
+  const renameConversation = useCallback(async (id: string, title: string) => {
+    const trimmedTitle = title.trim();
 
-      if (!trimmedTitle) return;
+    if (!trimmedTitle) return;
 
-      const updatedConversation = await renameConversationApi(id, trimmedTitle);
+    const updatedConversation = await renameConversationApi(id, trimmedTitle);
 
-      setConversations((prev) =>
-        prev.map((conversation) =>
-          conversation.id === id ? updatedConversation : conversation,
-        ),
-      );
+    setConversations((prev) =>
+      prev.map((conversation) =>
+        conversation.id === id ? updatedConversation : conversation,
+      ),
+    );
 
-      setActiveConversation((prev) =>
-        prev?.id === id ? updatedConversation : prev,
-      );
-    },
-    [],
-  );
+    setActiveConversation((prev) =>
+      prev?.id === id ? updatedConversation : prev,
+    );
+  }, []);
 
   const deleteConversation = useCallback(async (id: string) => {
     await deleteConversationApi(id);
 
-    setConversations((prev) => prev.filter((conversation) => conversation.id !== id));
+    setConversations((prev) =>
+      prev.filter((conversation) => conversation.id !== id),
+    );
 
     setActiveConversation((prev) => (prev?.id === id ? null : prev));
   }, []);
 
   useEffect(() => {
+    // Project change होते ही पुरानी conversation हटाओ
+    setActiveConversation(null);
+    setConversations([]);
+
     if (!resolvedProjectId) {
       return;
     }
 
-    const loadConversations = async () => {
-      await refreshConversations(resolvedProjectId);
-    };
-
-    void loadConversations();
+    void refreshConversations(resolvedProjectId);
   }, [resolvedProjectId, refreshConversations]);
 
   return (

@@ -18,6 +18,7 @@ const WorkspacePage = () => {
       return;
     }
 
+    clearMessages(); // पहले पुरानी messages हटाओ
     void loadMessages(activeConversation.id);
   }, [activeConversation, loadMessages, clearMessages]);
 
