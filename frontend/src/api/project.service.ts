@@ -22,21 +22,39 @@ export interface GetRecentProjectsResponse {
   projects: ApiProject[];
 }
 
-const normalizeProjectArray = (payload: unknown): ApiProject[] => {
-  if (Array.isArray(payload)) {
-    return payload;
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === "object" && value !== null;
+};
+
+const isApiProject = (value: unknown): value is ApiProject => {
+  if (!isRecord(value)) {
+    return false;
   }
 
-  if (payload && typeof payload === "object") {
-    const data = (payload as Record<string, unknown>).data;
-    const projects = (payload as Record<string, unknown>).projects;
+  return (
+    typeof value.id === "string" &&
+    typeof value.title === "string" &&
+    typeof value.description === "string" &&
+    typeof value.createdAt === "string" &&
+    typeof value.updatedAt === "string"
+  );
+};
+
+const normalizeProjectArray = (payload: unknown): ApiProject[] => {
+  if (Array.isArray(payload)) {
+    return payload.filter(isApiProject);
+  }
+
+  if (isRecord(payload)) {
+    const data = payload.data;
+    const projects = payload.projects;
 
     if (Array.isArray(projects)) {
-      return projects as ApiProject[];
+      return projects.filter(isApiProject);
     }
 
     if (Array.isArray(data)) {
-      return data as ApiProject[];
+      return data.filter(isApiProject);
     }
   }
 
@@ -44,20 +62,12 @@ const normalizeProjectArray = (payload: unknown): ApiProject[] => {
 };
 
 const normalizeProject = (payload: unknown): ApiProject | null => {
-  if (payload && typeof payload === "object") {
-    const candidate = payload as Record<string, unknown>;
+  if (isApiProject(payload)) {
+    return payload;
+  }
 
-    if (
-      typeof candidate.id === "string" &&
-      typeof candidate.title === "string" &&
-      typeof candidate.description === "string"
-    ) {
-      return candidate as ApiProject;
-    }
-
-    if (candidate.data && typeof candidate.data === "object") {
-      return normalizeProject(candidate.data);
-    }
+  if (isRecord(payload) && isRecord(payload.data)) {
+    return normalizeProject(payload.data);
   }
 
   return null;
