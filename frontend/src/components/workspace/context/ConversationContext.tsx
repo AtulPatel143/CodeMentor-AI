@@ -60,38 +60,44 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
     useState<Conversation | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const refreshConversations = useCallback(async (id: string) => {
-    if (!id) {
-      return;
-    }
+  const refreshConversations = useCallback(
+    async (id: string) => {
+      if (!id) {
+        return;
+      }
 
-    setLoading(true);
+      setLoading(true);
 
-    try {
-      const data = await getConversations(id);
+      try {
+        const data = await getConversations(id);
+        console.log("Active Project:", resolvedProjectId);
+        console.log("Workspace Active Project:", activeProject);
+        console.log("Conversations:", data);
 
-      setConversations(data);
+        setConversations(data);
 
-      setActiveConversation((currentConversation) => {
-        if (
-          currentConversation &&
-          data.some(
-            (conversation) => conversation.id === currentConversation.id,
-          )
-        ) {
-          return currentConversation;
-        }
+        setActiveConversation((currentConversation) => {
+          if (
+            currentConversation &&
+            data.some(
+              (conversation) => conversation.id === currentConversation.id,
+            )
+          ) {
+            return currentConversation;
+          }
 
-        return data[0] ?? null;
-      });
-    } catch (error) {
-      console.error("Failed to refresh conversations:", error);
-      setConversations([]);
-      setActiveConversation(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+          return data[0] ?? null;
+        });
+      } catch (error) {
+        console.error("Failed to refresh conversations:", error);
+        setConversations([]);
+        setActiveConversation(null);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [activeProject, resolvedProjectId],
+  );
 
   const createConversation = useCallback(
     async (id?: string) => {
@@ -118,12 +124,15 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
 
       const conversation = await createConversationApi(targetProjectId);
 
-      setConversations((prev) => [conversation, ...prev]);
+      // Reload conversations from backend
+      await refreshConversations(targetProjectId);
+
+      // Make newly created conversation active
       setActiveConversation(conversation);
 
       return conversation;
     },
-    [refreshProjects, resolvedProjectId],
+    [refreshProjects, resolvedProjectId, refreshConversations],
   );
 
   const updateConversation = useCallback(
@@ -180,11 +189,9 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
   }, []);
 
   useEffect(() => {
-    // Project change होते ही पुरानी conversation हटाओ
-    setActiveConversation(null);
-    setConversations([]);
-
     if (!resolvedProjectId) {
+      setConversations([]);
+      setActiveConversation(null);
       return;
     }
 

@@ -22,6 +22,8 @@ const WorkspacePage = () => {
     void loadMessages(activeConversation.id);
   }, [activeConversation, loadMessages, clearMessages]);
 
+  console.log("Active Conversation:", activeConversation?.id);
+
   const showChat = activeConversation !== null || messages.length > 0;
 
   return (

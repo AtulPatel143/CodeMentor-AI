@@ -8,10 +8,7 @@ import {
   type ReactNode,
 } from "react";
 
-import {
-  getProjects,
-  type ApiProject,
-} from "@/api/project.service";
+import { getProjects, type ApiProject } from "@/api/project.service";
 
 interface WorkspaceContextValue {
   projects: ApiProject[];
@@ -40,24 +37,24 @@ export const WorkspaceProvider = ({ children }: WorkspaceProviderProps) => {
     try {
       const response = await getProjects();
 
+      console.log("Projects API:", response.projects);
+
       setProjects(response.projects);
 
       setActiveProject((current) => {
+        console.log("Current Active:", current);
+
         if (response.projects.length === 0) {
           return null;
         }
 
-        if (current) {
-          const existing = response.projects.find(
-            (project) => project.id === current.id,
-          );
+        const selected = current
+          ? response.projects.find((p) => p.id === current.id)
+          : response.projects[response.projects.length - 1];
 
-          if (existing) {
-            return existing;
-          }
-        }
+        console.log("Selected Project:", selected);
 
-        return response.projects[response.projects.length - 1];
+        return selected ?? null;
       });
     } catch (error) {
       console.error("Failed to refresh projects:", error);
@@ -87,3 +84,4 @@ export const WorkspaceProvider = ({ children }: WorkspaceProviderProps) => {
     </WorkspaceContext.Provider>
   );
 };
+

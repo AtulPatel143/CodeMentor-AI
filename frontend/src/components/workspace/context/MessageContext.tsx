@@ -1,7 +1,11 @@
 import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 
-import { getMessages, streamMessage, stopStreaming } from "../../../api/message.api";
+import {
+  getMessages,
+  streamMessage,
+  stopStreaming,
+} from "../../../api/message.api";
 
 import type { Message } from "../../../types/message";
 import { MessageContext } from "./MessageContextImpl";
@@ -12,11 +16,19 @@ export function MessageProvider({ children }: { children: ReactNode }) {
   const [streaming, setStreaming] = useState(false);
 
   const loadMessages = useCallback(async (conversationId: string) => {
+    console.log("=================================");
+    console.log("Loading Messages For:", conversationId);
+
     setLoading(true);
 
     try {
       const data = await getMessages(conversationId);
+
+      console.log("Messages Returned:", data);
+
       setMessages(data);
+    } catch (error) {
+      console.error("Load Messages Error:", error);
     } finally {
       setLoading(false);
     }

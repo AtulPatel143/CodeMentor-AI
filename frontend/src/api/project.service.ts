@@ -73,13 +73,13 @@ const normalizeProject = (payload: unknown): ApiProject | null => {
   return null;
 };
 
-export const getRecentProjects = async (): Promise<GetRecentProjectsResponse> => {
-  const response = await api.get<ProjectApiResponse<ApiProject[]>>(
-    "/projects/recent",
-  );
+export const getRecentProjects =
+  async (): Promise<GetRecentProjectsResponse> => {
+    const response =
+      await api.get<ProjectApiResponse<ApiProject[]>>("/projects/recent");
 
-  return { projects: normalizeProjectArray(response.data) };
-};
+    return { projects: normalizeProjectArray(response.data) };
+  };
 
 export const getProjects = async (): Promise<GetProjectsResponse> => {
   const response = await api.get<ProjectApiResponse<ApiProject[]>>("/projects");

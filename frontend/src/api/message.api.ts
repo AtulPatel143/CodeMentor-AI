@@ -3,9 +3,7 @@ import axios from "./client";
 let controller: AbortController | null = null;
 
 export async function getMessages(conversationId: string) {
-  const { data } = await axios.get(
-    `/api/conversations/${conversationId}/messages`,
-  );
+  const { data } = await axios.get(`/conversations/${conversationId}/messages`);
 
   return data.data;
 }
@@ -18,7 +16,7 @@ export async function streamMessage(
   controller = new AbortController();
 
   const token = localStorage.getItem("token");
- 
+
   const rawApiUrl = (import.meta.env.VITE_API_URL as string) || "";
 
   const trimmed = rawApiUrl.replace(/\/+$/u, "");
@@ -27,8 +25,8 @@ export async function streamMessage(
     trimmed === ""
       ? "/api"
       : trimmed.endsWith("/api")
-      ? trimmed
-      : `${trimmed}/api`;
+        ? trimmed
+        : `${trimmed}/api`;
 
   const response = await fetch(
     `${apiBase}/conversations/${conversationId}/messages/stream`,
