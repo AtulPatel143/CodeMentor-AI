@@ -52,7 +52,7 @@ interface Props {
 }
 
 export const ConversationProvider = ({ projectId, children }: Props) => {
-  const { activeProject, refreshProjects } = useWorkspace();
+  const { activeProject, refreshProjects, setActiveProject } = useWorkspace();
   const resolvedProjectId = projectId ?? activeProject?.id;
 
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -115,6 +115,7 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
         }
 
         targetProjectId = newProject.id;
+        setActiveProject(newProject);
         await refreshProjects();
       }
 
@@ -132,7 +133,7 @@ export const ConversationProvider = ({ projectId, children }: Props) => {
 
       return conversation;
     },
-    [refreshProjects, resolvedProjectId, refreshConversations],
+    [refreshProjects, resolvedProjectId, refreshConversations, setActiveProject],
   );
 
   const updateConversation = useCallback(
